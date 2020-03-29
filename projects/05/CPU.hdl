@@ -40,4 +40,22 @@ CHIP CPU {
 
     PARTS:
     // Put your code here:
+    Mux16(a=instruction, b=outAlu, sel=instruction[15], out=outInstruction);
+    Not(in=instruction[15], out=instructionA);
+    Or(a=instruction[5], b=instructionA, out=loadA); // C instruction or bit set to save to A
+    ARegister(in=outInstruction, load=loadA, out=outA, out[0..14]=addressM);
+    Mux16(a=outA, b=inM, sel=instruction[12], out=outAOrM);
+    And(a=instruction[4], b=instruction[15], out=loadD); // C instruction & save to D
+    DRegister(in=outAlu, load=loadD, out=outD);
+    ALU(x=outD, y=outAOrM, zx=instruction[11], nx=instruction[10], zy=instruction[9], ny=instruction[8], f=instruction[7], no=instruction[6], out=outAlu, out=outM, zr=zr, ng=ng);
+    And(a=instruction[3], b=instruction[15], out=writeM); // C instruction & save to M
+    Or(a=ng, b=zr, out=ngOrZr);
+    Not(in=ngOrZr, out=notNgOrZr); // positive & not 0
+    And(a=ng, b=instruction[2], out=andNg);
+    And(a=zr, b=instruction[1], out=andZr);
+    And(a=notNgOrZr, b=instruction[0], out=andNotNgOrZr);
+    Or(a=andNg, b=andZr, out=jmp0);
+    Or(a=jmp0, b=andNotNgOrZr, out=jmp1); // should jump?
+    And(a=jmp1, b=instruction[15], out=jmp); // C instruction & should jump?
+    PC(in=outA, load=jmp, inc=true, reset=reset, out[0..14]=pc);
 }
