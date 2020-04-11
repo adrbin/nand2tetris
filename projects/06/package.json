@@ -1,0 +1,8 @@
+{
+  "name": "assembler",
+  "version": "1.0.0",
+  "main": "assembler.js",
+  "author": "adr",
+  "license": "MIT",
+  "type": "module"
+}
