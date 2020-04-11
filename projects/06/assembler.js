@@ -68,6 +68,14 @@ class Parser {
     R10: 10,
     R11: 11,
     R12: 12,
+    R13: 13,
+    R14: 14,
+    R15: 15,
+    SP: 0,
+    LCL: 1,
+    ARG: 2,
+    THIS: 3,
+    THAT: 4,
     SCREEN: 0x4000,
     KBD: 0x6000,
   };
@@ -82,10 +90,7 @@ class Parser {
   async parse() {
     const lines = await this.readLines();
     this.loadLabels(lines);
-    return lines
-      .map(line => line.toUpperCase())
-      .map(line => this.parseLine(line))
-      .filter(line => line);
+    return lines.map(line => this.parseLine(line)).filter(line => line);
   }
 
   async readLines() {
@@ -103,10 +108,12 @@ class Parser {
   }
 
   loadLabels(lines) {
+    let labelsCount = 0;
     lines.forEach((line, i) => {
       const match = line.match(this.labelRegex);
       if (match) {
-        this.symbols[match[1]] = i;
+        this.symbols[match[1]] = i - labelsCount;
+        labelsCount++;
       }
     });
   }
@@ -125,7 +132,7 @@ class Parser {
     let literal = line.substring(1);
     if (isNaN(literal)) {
       let value = this.symbols[literal];
-      if (!value) {
+      if (value == undefined) {
         value = this.variableCounter++;
         this.symbols[literal] = value;
       }
@@ -138,6 +145,7 @@ class Parser {
   }
 
   parseCCommand(line) {
+    line = line.toUpperCase();
     const dest = this.getDest(line);
     const comp = this.getComp(line);
     const jump = this.getJump(line);
