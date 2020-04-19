@@ -53,6 +53,20 @@ const jumpMap = {
   JMP: '111',
 };
 
+const A_COMMAND = 'A_COMMAND';
+const C_COMMAND = 'C_COMMAND';
+
+function translate(command) {
+  switch (command.type) {
+    case A_COMMAND:
+      return parseInt(command.literal, 10).toString(2).padStart(16, '0');
+    case C_COMMAND:
+      return `111${compMap[command.comp]}${destMap[command.dest]}${
+        jumpMap[command.jump]
+      }`;
+  }
+}
+
 class Parser {
   symbols = {
     R0: 0,
@@ -138,10 +152,10 @@ class Parser {
       }
       literal = value;
     }
-    const binary = parseInt(literal, 10)
-      .toString(2)
-      .padStart(16, '0');
-    return binary;
+    return {
+      type: A_COMMAND,
+      literal: literal,
+    };
   }
 
   parseCCommand(line) {
@@ -149,7 +163,12 @@ class Parser {
     const dest = this.getDest(line);
     const comp = this.getComp(line);
     const jump = this.getJump(line);
-    return `111${compMap[comp]}${destMap[dest]}${jumpMap[jump]}`;
+    return {
+      type: C_COMMAND,
+      dest,
+      comp,
+      jump,
+    };
   }
 
   getDest(line) {
@@ -184,7 +203,8 @@ class Parser {
 async function main() {
   const inputFile = process.argv[2];
   const parser = new Parser(inputFile);
-  const bytecode = await parser.parse();
+  const parsed = await parser.parse();
+  const bytecode = parsed.map(translate);
   let outputFile = process.argv[3];
   if (!outputFile) {
     const extensionStart = inputFile.lastIndexOf('.');
