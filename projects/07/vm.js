@@ -1,9 +1,9 @@
 import { promises } from 'fs';
+import * as path from 'path';
 
 const operations = {
   add() {
     return `
-// add
 @SP // SP--
 AM=M-1
 D=M // arg2=*SP
@@ -13,7 +13,6 @@ M=M+D // *SP=arg1+arg2
   },
   sub() {
     return `
-// sub
 @SP // SP--
 AM=M-1
 D=M // arg2=*SP
@@ -23,7 +22,6 @@ M=M-D // *SP=arg1-arg2
   },
   neg() {
     return `
-// neg
 @SP // *SP=-*SP
 A=M-1
 M=-M
@@ -41,7 +39,6 @@ M=M&D // *SP=arg1&arg2
   },
   or() {
     return `
-// or
 @SP // SP--
 AM=M-1
 D=M // arg2=*SP
@@ -59,7 +56,6 @@ M=!M
   },
   eq({ n }) {
     return `
-// eq
 @SP // SP--
 AM=M-1
 D=M // arg2=*SP
@@ -79,7 +75,6 @@ M=D
   },
   gt({ n }) {
     return `
-// gt
 @SP // SP--
 AM=M-1
 D=M // arg2=*SP
@@ -99,7 +94,6 @@ M=D
   },
   lt({ n }) {
     return `
-// lt
 @SP // SP--
 AM=M-1
 D=M // arg2=*SP
@@ -122,7 +116,6 @@ M=D
 const pushSegments = {
   constant({ arg2 }) {
     return `
-// push constant ${arg2}
 @${arg2} // *SP=${arg2}
 D=A
 @SP
@@ -132,9 +125,145 @@ M=D
 M=M+1
 `;
   },
+  pointer({ arg2 }) {
+    const pointer = arg2 == 0 ? 'THIS' : 'THAT';
+    return `
+@${pointer} // *SP=*${pointer}
+D=M
+@SP
+A=M
+M=D
+@SP // SP++
+M=M+1
+`;
+  },
+  temp({ arg2 }) {
+    return `
+@${arg2} // addr=5+${arg2}
+D=A
+@R5
+A=A+D
+D=M
+@SP // *SP=*addr
+A=M
+M=D
+@SP // SP++
+M=M+1
+`;
+  },
+  static({ arg2, fileName }) {
+    return `
+@${fileName}.${arg2} // *SP=${fileName}.${arg2}
+D=M
+@SP
+A=M
+M=D
+@SP // SP++
+M=M+1
+`;
+  },
+  local(args) {
+    return basePush(args);
+  },
+  argument(args) {
+    return basePush(args);
+  },
+  this(args) {
+    return basePush(args);
+  },
+  that(args) {
+    return basePush(args);
+  },
 };
 
-const popSegments = {};
+const popSegments = {
+  local(args) {
+    return basePop(args);
+  },
+  argument(args) {
+    return basePop(args);
+  },
+  this(args) {
+    return basePop(args);
+  },
+  that(args) {
+    return basePop(args);
+  },
+  pointer({ arg2 }) {
+    const pointer = arg2 == 0 ? 'THIS' : 'THAT';
+    return `
+@SP // SP-- 
+AM=M-1
+D=M
+@${pointer} // THIS=*(SP-1)
+M=D
+`;
+  },
+  temp({ arg2 }) {
+    return `
+@${arg2} // addr=5+${arg2}
+D=A
+@R5
+D=A+D
+@R13
+M=D
+@SP // SP--
+AM=M-1
+D=M // *addr=*SP
+@R13
+M=D
+`;
+  },
+  static({ arg2, fileName }) {
+    return `
+@SP // SP-- 
+AM=M-1
+D=M
+@${fileName}.${arg2} // ${fileName}.${arg2}=*SP
+M=D
+`;
+  },
+};
+
+const baseNames = {
+  local: 'LCL',
+  argument: 'ARG',
+  this: 'THIS',
+  that: 'THAT',
+  temp: 'R5',
+};
+
+function basePush({ arg1, arg2 }) {
+  return `
+@${arg2} // addr=${baseNames[arg1]}+${arg2}
+D=A
+@${baseNames[arg1]}
+A=M+D
+D=M
+@SP // *SP=*addr
+A=M
+M=D
+@SP // SP++
+M=M+1
+`;
+}
+
+function basePop({ arg1, arg2 }) {
+  return `
+@${arg2} // addr=${baseNames[arg1]}+${arg2}
+D=A
+@${baseNames[arg1]}
+D=M+D
+@R13
+M=D
+@SP // SP--
+AM=M-1
+D=M // *addr=*SP
+@R13
+A=M
+M=D
+`;
+}
 
 const translations = {
   operation: operations,
@@ -156,14 +285,15 @@ async function readLines(file) {
     .filter(line => line);
 }
 
-function parse(line, n) {
-  const [command, arg1, arg2] = line.split(/\s+/).map(x => x.toLowerCase());
+function parse(line, n, fileName) {
+  let [command, arg1, arg2] = line.split(/\s+/).map(x => x.toLowerCase());
   if (Object.keys(operations).includes(command)) {
     return {
       command: 'operation',
       arg1: command,
       arg2: arg1,
-      n: n,
+      n,
+      fileName,
     };
   }
   return {
@@ -171,18 +301,26 @@ function parse(line, n) {
     arg1,
     arg2,
     n,
+    fileName,
   };
 }
 
 function writeLine(command) {
-  return translations[command.command][command.arg1](command);
+  const translation = translations[command.command][command.arg1](command);
+  const commentedTranslation = `// ${command.command} ${command.arg1 || ''} ${
+    command.arg2 || ''
+  }
+${translation.substring(1)}
+`; // removes leading end of the line
+  return commentedTranslation;
 }
 
 async function main() {
   const inputFile = process.argv[2];
+  const fileName = path.basename(inputFile, path.extname(inputFile));
   const lines = await readLines(inputFile);
   const assembly = lines.map((line, i) => {
-    const command = parse(line, i);
+    const command = parse(line, i, fileName);
     const result = writeLine(command);
     return result;
   });
