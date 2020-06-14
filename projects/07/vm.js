@@ -288,13 +288,7 @@ async function readLines(file) {
 function parse(line, n, fileName) {
   let [command, arg1, arg2] = line.split(/\s+/).map(x => x.toLowerCase());
   if (Object.keys(operations).includes(command)) {
-    return {
-      command: 'operation',
-      arg1: command,
-      arg2: arg1,
-      n,
-      fileName,
-    };
+    [command, arg1, arg2] = ['operation', command, arg1];
   }
   return {
     command,
@@ -311,7 +305,7 @@ function writeLine(command) {
     command.arg2 || ''
   }
 ${translation.substring(1)}
-`; // removes leading end of the line
+`; // removes a leading end of the line
   return commentedTranslation;
 }
 
