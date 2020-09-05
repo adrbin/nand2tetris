@@ -1,4 +1,4 @@
-// push constant 0
+// push constant 0 
 @0 // *SP=0
 D=A
 @SP
@@ -7,7 +7,7 @@ M=D
 @SP // SP++
 M=M+1
 
-// pop local 0
+// pop local 0 
 @0 // addr=LCL+0
 D=A
 @LCL
@@ -21,10 +21,10 @@ D=M // *addr=*SP
 A=M
 M=D
 
-// branching label loop_start
-(LABEL.loop_start)
+// branching label loop_start 
+($loop_start)
 
-// push argument 0
+// push argument 0 
 @0 // addr=ARG+0
 D=A
 @ARG
@@ -36,7 +36,7 @@ M=D
 @SP // SP++
 M=M+1
 
-// push local 0
+// push local 0 
 @0 // addr=LCL+0
 D=A
 @LCL
@@ -48,14 +48,14 @@ M=D
 @SP // SP++
 M=M+1
 
-// operation add 
+// operation add  
 @SP // SP--
 AM=M-1
 D=M // arg2=*SP
 A=A-1 // arg1=*(SP-1)
 M=M+D // *SP=arg1+arg2
 
-// pop local 0
+// pop local 0 
 @0 // addr=LCL+0
 D=A
 @LCL
@@ -69,7 +69,7 @@ D=M // *addr=*SP
 A=M
 M=D
 
-// push argument 0
+// push argument 0 
 @0 // addr=ARG+0
 D=A
 @ARG
@@ -81,7 +81,7 @@ M=D
 @SP // SP++
 M=M+1
 
-// push constant 1
+// push constant 1 
 @1 // *SP=1
 D=A
 @SP
@@ -90,14 +90,14 @@ M=D
 @SP // SP++
 M=M+1
 
-// operation sub 
+// operation sub  
 @SP // SP--
 AM=M-1
 D=M // arg2=*SP
 A=A-1 // arg1=*(SP-1)
 M=M-D // *SP=arg1-arg2
 
-// pop argument 0
+// pop argument 0 
 @0 // addr=ARG+0
 D=A
 @ARG
@@ -111,7 +111,7 @@ D=M // *addr=*SP
 A=M
 M=D
 
-// push argument 0
+// push argument 0 
 @0 // addr=ARG+0
 D=A
 @ARG
@@ -123,14 +123,14 @@ M=D
 @SP // SP++
 M=M+1
 
-// branching if-goto loop_start
+// branching if-goto loop_start 
 @SP // SP--
 AM=M-1
 D=M
-@LABEL.loop_start // if *SP != 0 jump to label loop_start
+@$loop_start // if *SP != 0 jump to label loop_start
 D;JNE
 
-// push local 0
+// push local 0 
 @0 // addr=LCL+0
 D=A
 @LCL

@@ -1,21 +1,21 @@
 export const branchingCommands = {
-  label({ arg2 }) {
+  label({ arg1, functionName }) {
     return `
-(LABEL.${arg2})
+(${functionName}$${arg1})
 `;
   },
-  goto({ arg2 }) {
+  goto({ arg1, functionName }) {
     return `
-@LABEL.${arg2} // goto ${arg2}
+@${functionName}$${arg1} // goto ${arg1}
 0;JMP
 `;
   },
-  ['if-goto']({ arg2 }) {
+  ['if-goto']({ arg1, functionName }) {
     return `
 @SP // SP--
 AM=M-1
 D=M
-@LABEL.${arg2} // if *SP != 0 jump to label ${arg2}
+@${functionName}$${arg1} // if *SP != 0 jump to label ${arg1}
 D;JNE
 `;
   },

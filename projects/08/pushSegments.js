@@ -1,9 +1,9 @@
 import { baseNames } from './baseNames.js';
 
 export const pushSegments = {
-  constant({ arg2 }) {
+  constant({ arg1 }) {
     return `
-@${arg2} // *SP=${arg2}
+@${arg1} // *SP=${arg1}
 D=A
 @SP
 A=M
@@ -12,8 +12,8 @@ M=D
 M=M+1
 `;
   },
-  pointer({ arg2 }) {
-    const pointer = arg2 == 0 ? 'THIS' : 'THAT';
+  pointer({ arg1 }) {
+    const pointer = arg1 == 0 ? 'THIS' : 'THAT';
     return `
 @${pointer} // *SP=*${pointer}
 D=M
@@ -24,9 +24,9 @@ M=D
 M=M+1
 `;
   },
-  temp({ arg2 }) {
+  temp({ arg1 }) {
     return `
-@${arg2} // addr=5+${arg2}
+@${arg1} // addr=5+${arg1}
 D=A
 @R5
 A=A+D
@@ -38,9 +38,9 @@ M=D
 M=M+1
 `;
   },
-  static({ arg2, fileName }) {
+  static({ arg1, fileName }) {
     return `
-@${fileName}.${arg2} // *SP=${fileName}.${arg2}
+@${fileName}.${arg1} // *SP=${fileName}.${arg1}
 D=M
 @SP
 A=M
@@ -63,11 +63,11 @@ M=M+1
   },
 };
 
-function basePush({ arg1, arg2 }) {
+function basePush({ command, arg1 }) {
   return `
-@${arg2} // addr=${baseNames[arg1]}+${arg2}
+@${arg1} // addr=${baseNames[command]}+${arg1}
 D=A
-@${baseNames[arg1]}
+@${baseNames[command]}
 A=M+D
 D=M
 @SP // *SP=*addr

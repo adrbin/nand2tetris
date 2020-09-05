@@ -13,8 +13,8 @@ export const popSegments = {
   that(args) {
     return basePop(args);
   },
-  pointer({ arg2 }) {
-    const pointer = arg2 == 0 ? 'THIS' : 'THAT';
+  pointer({ arg1 }) {
+    const pointer = arg1 == 0 ? 'THIS' : 'THAT';
     return `
 @SP // SP-- 
 AM=M-1
@@ -23,9 +23,9 @@ D=M
 M=D
 `;
   },
-  temp({ arg2 }) {
+  temp({ arg1 }) {
     return `
-@${arg2} // addr=5+${arg2}
+@${arg1} // addr=R5+${arg1}
 D=A
 @R5
 D=A+D
@@ -35,25 +35,26 @@ M=D
 AM=M-1
 D=M // *addr=*SP
 @R13
+A=M
 M=D
 `;
   },
-  static({ arg2, fileName }) {
+  static({ arg1, fileName }) {
     return `
 @SP // SP-- 
 AM=M-1
 D=M
-@${fileName}.${arg2} // ${fileName}.${arg2}=*SP
+@${fileName}.${arg1} // ${fileName}.${arg1}=*SP
 M=D
 `;
   },
 };
 
-function basePop({ arg1, arg2 }) {
+function basePop({ command, arg1 }) {
   return `
-@${arg2} // addr=${baseNames[arg1]}+${arg2}
+@${arg1} // addr=${baseNames[command]}+${arg1}
 D=A
-@${baseNames[arg1]}
+@${baseNames[command]}
 D=M+D
 @R13
 M=D
