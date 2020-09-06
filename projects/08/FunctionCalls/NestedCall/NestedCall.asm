@@ -1,42 +1,10 @@
-// function function sys.init 0
-(sys.init) // push k = 0 local variables
-
-
-// push constant 4000 
-@4000 // *SP=4000
+@256
 D=A
 @SP
-A=M
-M=D
-@SP // SP++
-M=M+1
-
-// pop pointer 0 
-@SP // SP-- 
-AM=M-1
-D=M
-@THIS // THIS=*(SP-1)
 M=D
 
-// push constant 5000 
-@5000 // *SP=5000
-D=A
-@SP
-A=M
-M=D
-@SP // SP++
-M=M+1
 
-// pop pointer 1 
-@SP // SP-- 
-AM=M-1
-D=M
-@THAT // THIS=*(SP-1)
-M=D
-
-// function call sys.main 0
-
-@sys.init.sys.main.5 // push sys.init.sys.main.5
+@undefined.Sys.init.0 // push undefined.Sys.init.0
 D=A
 @SP
 A=M
@@ -92,13 +60,115 @@ D=M
 @LCL
 M=D
 
-@sys.main // goto function sys.main
+@Sys.init // goto function Sys.init
 0;JMP
 
-(sys.init.sys.main.5) // return label
+(undefined.Sys.init.0) // return label
+
+
+// Sys.vm
+
+// function function Sys.init 0
+(Sys.init) // push k = 0 local variables
+
+
+// push constant 4000 
+@4000 // *SP=4000
+D=A
+@SP
+A=M
+M=D
+@SP // SP++
+M=M+1
+
+// pop pointer 0 
+@SP // SP-- 
+AM=M-1
+D=M
+@THIS // THIS=*(SP-1)
+M=D
+
+// push constant 5000 
+@5000 // *SP=5000
+D=A
+@SP
+A=M
+M=D
+@SP // SP++
+M=M+1
+
+// pop pointer 1 
+@SP // SP-- 
+AM=M-1
+D=M
+@THAT // THIS=*(SP-1)
+M=D
+
+// function call Sys.main 0
+
+@Sys.init.Sys.main.6 // push Sys.init.Sys.main.6
+D=A
+@SP
+A=M
+M=D
+@SP
+M=M+1
+
+
+@LCL // push LCL
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1
+
+
+@ARG // push ARG
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1
+
+
+@THIS // push THIS
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1
+
+
+@THAT // push THAT
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1
+
+@5 // ARG = SP - n - 5 (n = 0)
+D=A
+@SP
+D=M-D
+@ARG
+M=D
+
+@SP // LCL = SP
+D=M
+@LCL
+M=D
+
+@Sys.main // goto function Sys.main
+0;JMP
+
+(Sys.init.Sys.main.6) // return label
 
 // pop temp 1 
-@1 // addr=5+1
+@1 // addr=R5+1
 D=A
 @R5
 D=A+D
@@ -111,15 +181,15 @@ D=M // *addr=*SP
 A=M
 M=D
 
-// branching label loop 
-(sys.init$loop)
+// branching label LOOP 
+(Sys.init$LOOP)
 
-// branching goto loop 
-@sys.init$loop // goto loop
+// branching goto LOOP 
+@Sys.init$LOOP // goto LOOP
 0;JMP
 
-// function function sys.main 5
-(sys.main) // push k = 5 local variables
+// function function Sys.main 5
+(Sys.main) // push k = 5 local variables
 
 @SP // push 0
 A=M
@@ -262,9 +332,9 @@ M=D
 @SP // SP++
 M=M+1
 
-// function call sys.add12 1
+// function call Sys.add12 1
 
-@sys.main.sys.add12.21 // push sys.main.sys.add12.21
+@Sys.main.Sys.add12.22 // push Sys.main.Sys.add12.22
 D=A
 @SP
 A=M
@@ -320,13 +390,13 @@ D=M
 @LCL
 M=D
 
-@sys.add12 // goto function sys.add12
+@Sys.add12 // goto function Sys.add12
 0;JMP
 
-(sys.main.sys.add12.21) // return label
+(Sys.main.Sys.add12.22) // return label
 
 // pop temp 0 
-@0 // addr=5+0
+@0 // addr=R5+0
 D=A
 @R5
 D=A+D
@@ -483,8 +553,8 @@ M=D
 A=M
 0;JMP
 
-// function function sys.add12 0
-(sys.add12) // push k = 0 local variables
+// function function Sys.add12 0
+(Sys.add12) // push k = 0 local variables
 
 
 // push constant 4002 

@@ -1,3 +1,73 @@
+@256
+D=A
+@SP
+M=D
+
+
+@undefined.Sys.init.0 // push undefined.Sys.init.0
+D=A
+@SP
+A=M
+M=D
+@SP
+M=M+1
+
+
+@LCL // push LCL
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1
+
+
+@ARG // push ARG
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1
+
+
+@THIS // push THIS
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1
+
+
+@THAT // push THAT
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1
+
+@5 // ARG = SP - n - 5 (n = 0)
+D=A
+@SP
+D=M-D
+@ARG
+M=D
+
+@SP // LCL = SP
+D=M
+@LCL
+M=D
+
+@Sys.init // goto function Sys.init
+0;JMP
+
+(undefined.Sys.init.0) // return label
+
+
+// FibonacciSeries.vm
+
 // push argument 1 
 @1 // addr=ARG+1
 D=A
@@ -105,8 +175,8 @@ D=M // *addr=*SP
 A=M
 M=D
 
-// branching label main_loop_start 
-($main_loop_start)
+// branching label MAIN_LOOP_START 
+($MAIN_LOOP_START)
 
 // push argument 0 
 @0 // addr=ARG+0
@@ -120,19 +190,19 @@ M=D
 @SP // SP++
 M=M+1
 
-// branching if-goto compute_element 
+// branching if-goto COMPUTE_ELEMENT 
 @SP // SP--
 AM=M-1
 D=M
-@$compute_element // if *SP != 0 jump to label compute_element
+@$COMPUTE_ELEMENT // if *SP != 0 jump to label COMPUTE_ELEMENT
 D;JNE
 
-// branching goto end_program 
-@$end_program // goto end_program
+// branching goto END_PROGRAM 
+@$END_PROGRAM // goto END_PROGRAM
 0;JMP
 
-// branching label compute_element 
-($compute_element)
+// branching label COMPUTE_ELEMENT 
+($COMPUTE_ELEMENT)
 
 // push that 0 
 @0 // addr=THAT+0
@@ -253,10 +323,10 @@ D=M // *addr=*SP
 A=M
 M=D
 
-// branching goto main_loop_start 
-@$main_loop_start // goto main_loop_start
+// branching goto MAIN_LOOP_START 
+@$MAIN_LOOP_START // goto MAIN_LOOP_START
 0;JMP
 
-// branching label end_program 
-($end_program)
+// branching label END_PROGRAM 
+($END_PROGRAM)
 

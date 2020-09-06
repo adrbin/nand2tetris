@@ -7,6 +7,18 @@ import { popSegments } from './popSegments.js';
 import { branchingCommands } from './branchingCommands.js';
 import { functionCommands } from './functionCommands.js';
 
+const bootstrap = `@256
+D=A
+@SP
+M=D
+${functionCommands.call({
+  arg1: 'Sys.init',
+  arg2: 0,
+  n: 0,
+})}
+
+`;
+
 const translations = {
   operation: operations,
   push: pushSegments,
@@ -30,7 +42,7 @@ async function readLines(file) {
 }
 
 function parse({ line, n, fileName, functionName }) {
-  let [command, arg1, arg2] = line.split(/\s+/).map(x => x.toLowerCase());
+  let [command, arg1, arg2] = line.split(/\s+/);
   let type = '';
   if (command == 'push' || command == 'pop') {
     [type, command, arg1, arg2] = [command, arg1, arg2];
@@ -58,32 +70,54 @@ function writeLine(command) {
     command.arg1 || ''
   } ${command.arg2 || ''}
 ${translation.substring(1)}
-`; // removes a leading end of the line
+`; // removes the leading end of the line
   return commentedTranslation;
 }
 
 async function main() {
-  const inputFile = process.argv[2];
-  const fileName = path.basename(inputFile, path.extname(inputFile));
-  const lines = await readLines(inputFile);
-  let functionName = '';
-  const assembly = lines.map((line, i) => {
-    const command = parse({ line, n: i, fileName, functionName });
-    if (command.type === 'function' && command.command === 'function') {
-      functionName = command.arg1;
-    }
-    const result = writeLine(command);
-    return result;
-  });
+  const input = process.argv[2];
+  let dirName = path.dirname(input);
+  let inputFiles = [path.basename(input)];
+  const stat = await promises.lstat(input);
+  if (stat.isDirectory()) {
+    dirName = input;
+    inputFiles = await promises.readdir(input);
+  }
+  let lineIndex = 1;
+  const codePromises = inputFiles
+    .filter(inputFile => inputFile.endsWith('.vm'))
+    .map(async inputFile => {
+      const filePath = path.join(dirName, inputFile);
+      const fileName = path.basename(filePath, path.extname(filePath));
+      const lines = await readLines(filePath);
+      let functionName = '';
+      const assembly = lines.map(line => {
+        const command = parse({
+          line,
+          n: lineIndex++,
+          fileName,
+          functionName,
+        });
+        if (command.type === 'function' && command.command === 'function') {
+          functionName = command.arg1;
+        }
+        const result = writeLine(command);
+        return result;
+      });
+      // console.log(assembly);
+      const comment = `// ${inputFile}\n\n`;
+      return [comment, ...assembly];
+    });
+
+  const code = (await Promise.all(codePromises)).flat();
+  // console.log(code);
+
   let outputFile = process.argv[3];
   if (!outputFile) {
-    const extensionStart = inputFile.lastIndexOf('.');
-    if (extensionStart === -1) {
-      extensionStart = inputFile.length;
-    }
-    outputFile = inputFile.substring(0, extensionStart) + '.asm';
+    const baseName = path.basename(input, path.extname(input));
+    outputFile = path.join(dirName, baseName + '.asm');
   }
-  await promises.writeFile(outputFile, assembly.join(''));
+  await promises.writeFile(outputFile, [bootstrap, ...code].join(''));
 }
 
 main();

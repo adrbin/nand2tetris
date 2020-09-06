@@ -1,11 +1,11 @@
 export const functionCommands = {
-  function({ arg1, arg2 }) {
+  function({ arg1, arg2 = 0 }) {
     return `
 (${arg1}) // push k = ${arg2} local variables
 ${push0().repeat(arg2)}
 `;
   },
-  call({ arg1, arg2, functionName, n }) {
+  call({ arg1, arg2 = 0, functionName, n }) {
     const returnLabel = `${functionName}.${arg1}.${n}`;
     return `
 ${pushValue(returnLabel)}

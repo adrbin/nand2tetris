@@ -1,5 +1,75 @@
-// function function simplefunction.test 2
-(simplefunction.test) // push k = 2 local variables
+@256
+D=A
+@SP
+M=D
+
+
+@undefined.Sys.init.0 // push undefined.Sys.init.0
+D=A
+@SP
+A=M
+M=D
+@SP
+M=M+1
+
+
+@LCL // push LCL
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1
+
+
+@ARG // push ARG
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1
+
+
+@THIS // push THIS
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1
+
+
+@THAT // push THAT
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1
+
+@5 // ARG = SP - n - 5 (n = 0)
+D=A
+@SP
+D=M-D
+@ARG
+M=D
+
+@SP // LCL = SP
+D=M
+@LCL
+M=D
+
+@Sys.init // goto function Sys.init
+0;JMP
+
+(undefined.Sys.init.0) // return label
+
+
+// SimpleFunction.vm
+
+// function function SimpleFunction.test 2
+(SimpleFunction.test) // push k = 2 local variables
 
 @SP // push 0
 A=M

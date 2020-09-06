@@ -1,3 +1,73 @@
+@256
+D=A
+@SP
+M=D
+
+
+@undefined.Sys.init.0 // push undefined.Sys.init.0
+D=A
+@SP
+A=M
+M=D
+@SP
+M=M+1
+
+
+@LCL // push LCL
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1
+
+
+@ARG // push ARG
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1
+
+
+@THIS // push THIS
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1
+
+
+@THAT // push THAT
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1
+
+@5 // ARG = SP - n - 5 (n = 0)
+D=A
+@SP
+D=M-D
+@ARG
+M=D
+
+@SP // LCL = SP
+D=M
+@LCL
+M=D
+
+@Sys.init // goto function Sys.init
+0;JMP
+
+(undefined.Sys.init.0) // return label
+
+
+// BasicLoop.vm
+
 // push constant 0 
 @0 // *SP=0
 D=A
@@ -21,8 +91,8 @@ D=M // *addr=*SP
 A=M
 M=D
 
-// branching label loop_start 
-($loop_start)
+// branching label LOOP_START 
+($LOOP_START)
 
 // push argument 0 
 @0 // addr=ARG+0
@@ -123,11 +193,11 @@ M=D
 @SP // SP++
 M=M+1
 
-// branching if-goto loop_start 
+// branching if-goto LOOP_START 
 @SP // SP--
 AM=M-1
 D=M
-@$loop_start // if *SP != 0 jump to label loop_start
+@$LOOP_START // if *SP != 0 jump to label LOOP_START
 D;JNE
 
 // push local 0 
