@@ -7,7 +7,8 @@ import { popSegments } from './popSegments.js';
 import { branchingCommands } from './branchingCommands.js';
 import { functionCommands } from './functionCommands.js';
 
-const bootstrap = `@256
+const bootstrap = `// bootstrap
+@256
 D=A
 @SP
 M=D
