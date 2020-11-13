@@ -1,0 +1,12 @@
+{
+  "name": "vm-translator",
+  "version": "1.0.0",
+  "description": "",
+  "main": "vm.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "adr",
+  "license": "ISC",
+  "type": "module"
+}

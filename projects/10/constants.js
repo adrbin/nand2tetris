@@ -1,0 +1,48 @@
+export const keywordConsts = [
+  'class',
+  'constructor',
+  'function',
+  'method',
+  'field',
+  'static',
+  'var',
+  'int',
+  'char',
+  'boolean',
+  'void',
+  'true',
+  'false',
+  'null',
+  'this',
+  'let',
+  'do',
+  'if',
+  'else',
+  'while',
+  'return',
+];
+
+export const symbolConsts = [
+  '{',
+  '}',
+  '(',
+  ')',
+  '\\[',
+  '\\]',
+  '.',
+  ',',
+  ';',
+  '+',
+  '_',
+  '*',
+  '\\/',
+  '&',
+  '|',
+  '<',
+  '>',
+  '=',
+  '-',
+];
+
+export const keywordRegex = new RegExp(`^\\s*(${keywordConsts.join('|')})`);
+export const symbolRegex = new RegExp(`^\\s*([${symbolConsts.join('')}])`);
