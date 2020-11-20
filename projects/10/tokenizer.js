@@ -8,6 +8,7 @@ import {
   inlineCommentRegex,
   longCommentRegex,
   types,
+  nodeTypes,
 } from './constants.js';
 
 export async function tokenize(file) {
@@ -23,7 +24,7 @@ export async function tokenize(file) {
     tokens.push(token);
     i += token.match.length;
   }
-  return tokens.filter(token => token && token.type !== 'comment');
+  return tokens.filter(token => token && token.name !== 'comment');
 }
 
 function getToken(text) {
@@ -70,9 +71,11 @@ function getMatch(text, regex, type) {
   const match = text.match(regex);
   return match
     ? {
-        type: type,
+        name: type,
+        type: nodeTypes.element,
         match: match[0],
         value: match[1],
+        elements: [{ type: nodeTypes.text, text: match[1] }],
       }
     : null;
 }

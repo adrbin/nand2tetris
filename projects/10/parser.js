@@ -6,10 +6,13 @@ import {
   ops,
   unaryOps,
   keywordConsts,
+  nodeTypes,
 } from './constants.js';
 
 export function parse(tokens) {
-  return parseClass(tokens);
+  return {
+    elements: [parseClass(tokens)],
+  };
 }
 
 function parseClass(tokens) {
@@ -24,9 +27,9 @@ function parseClass(tokens) {
   const openParenthesis = tokens[tokenIndex++];
 
   if (
-    keyword.type !== types.keyword ||
+    keyword.name !== types.keyword ||
     keyword.value !== types.class ||
-    openParenthesis.type !== types.symbol ||
+    openParenthesis.name !== types.symbol ||
     openParenthesis.value !== '{'
   ) {
     return;
@@ -39,20 +42,21 @@ function parseClass(tokens) {
   const closeParenthesis = tokens[tokenIndex++];
   if (
     !closeParenthesis ||
-    closeParenthesis.type !== types.symbol ||
+    closeParenthesis.name !== types.symbol ||
     closeParenthesis.value !== '}'
   ) {
     return;
   }
 
   return {
-    type: types.class,
-    children: [
+    name: types.class,
+    type: nodeTypes.element,
+    elements: [
       keyword,
       className,
       openParenthesis,
-      ...classVarDecs.children,
-      ...subroutineDecs.children,
+      ...classVarDecs.elements,
+      ...subroutineDecs.elements,
       closeParenthesis,
     ],
     length: tokenIndex,
@@ -69,7 +73,7 @@ function parseVarDecs(tokens) {
 
 function genericParseList(tokens, parseFuntion) {
   const result = {
-    children: [],
+    elements: [],
     length: 0,
   };
   while (result.length < tokens.length) {
@@ -77,7 +81,7 @@ function genericParseList(tokens, parseFuntion) {
     if (!parsedToken) {
       break;
     }
-    result.children.push(parsedToken);
+    result.elements.push(parsedToken);
     result.length += parsedToken.length;
   }
 
@@ -104,10 +108,10 @@ function genericParseVarDec(tokens, validKeywords, resultType) {
   const varName = tokens[tokenIndex++];
 
   if (
-    keyword.type !== types.keyword ||
+    keyword.name !== types.keyword ||
     !validKeywords.includes(keyword.value) ||
     !validateType(type) ||
-    varName.type !== types.identifier
+    varName.name !== types.identifier
   ) {
     return;
   }
@@ -117,9 +121,9 @@ function genericParseVarDec(tokens, validKeywords, resultType) {
     const first = tokens[tokenIndex];
     const second = tokens[tokenIndex + 1];
     if (
-      first.type !== types.symbol ||
+      first.name !== types.symbol ||
       first.value !== ',' ||
-      second.type !== types.identifier
+      second.name !== types.identifier
     ) {
       break;
     }
@@ -130,15 +134,16 @@ function genericParseVarDec(tokens, validKeywords, resultType) {
   const semicolon = tokens[tokenIndex++];
   if (
     !semicolon ||
-    semicolon.type !== types.symbol ||
+    semicolon.name !== types.symbol ||
     semicolon.value !== ';'
   ) {
     return;
   }
 
   return {
-    type: resultType,
-    children: [keyword, type, varName, ...varNames, semicolon],
+    name: resultType,
+    type: nodeTypes.element,
+    elements: [keyword, type, varName, ...varNames, semicolon],
     length: tokenIndex,
   };
 }
@@ -149,8 +154,8 @@ function validateType(type) {
   }
 
   if (
-    (type.type == types.keyword && dataTypes.includes(type.value)) ||
-    type.type === types.identifier
+    (type.name == types.keyword && dataTypes.includes(type.value)) ||
+    type.name === types.identifier
   ) {
     return true;
   }
@@ -175,11 +180,11 @@ function parseSubroutineDec(tokens) {
   const leftParenthesis = tokens[tokenIndex++];
 
   if (
-    subroutineType.type !== types.keyword ||
+    subroutineType.name !== types.keyword ||
     !subroutineTypes.includes(subroutineType.value) ||
     !validateType(type) ||
-    subroutineName.type !== types.identifier ||
-    leftParenthesis.type !== types.symbol ||
+    subroutineName.name !== types.identifier ||
+    leftParenthesis.name !== types.symbol ||
     leftParenthesis.value !== '('
   ) {
     return;
@@ -190,7 +195,7 @@ function parseSubroutineDec(tokens) {
   const rightParenthesis = tokens[tokenIndex++];
 
   if (
-    rightParenthesis.type !== types.symbol ||
+    rightParenthesis.name !== types.symbol ||
     rightParenthesis.value !== ')'
   ) {
     return;
@@ -201,8 +206,9 @@ function parseSubroutineDec(tokens) {
   tokenIndex += subroutineBody.length;
 
   return {
-    type: types.subroutineDec,
-    children: [
+    name: types.subroutineDec,
+    type: nodeTypes.element,
+    elements: [
       subroutineType,
       type,
       subroutineName,
@@ -216,39 +222,38 @@ function parseSubroutineDec(tokens) {
 }
 
 function parseParameterList(tokens) {
-  let tokenIndex = 0;
-  const type = tokens[tokenIndex++];
-  const varName = tokens[tokenIndex++];
-  if (!validateType(type) || !varName || varName.type !== types.identifier) {
-    return {
-      type: types.parameterList,
-      children: [],
-      length: 0,
-    };
+  const type = tokens[0];
+  const varName = tokens[1];
+  const result = {
+    name: types.parameterList,
+    type: nodeTypes.element,
+    elements: [],
+    length: 0,
+  };
+  if (!validateType(type) || !varName || varName.name !== types.identifier) {
+    return result;
   }
 
-  const children = [];
-  while (tokenIndex < tokens.length - 3) {
-    const first = tokens[tokenIndex];
-    const second = tokens[tokenIndex + 1];
-    const third = tokens[tokenIndex + 2];
+  result.elements.push(type, varName);
+  result.length += 2;
+
+  while (result.length < tokens.length - 3) {
+    const first = tokens[result.length];
+    const second = tokens[result.length + 1];
+    const third = tokens[result.length + 2];
     if (
-      first.type !== types.symbol ||
+      first.name !== types.symbol ||
       first.value !== ',' ||
       !validateType(second) ||
-      third.type !== types.identifier
+      third.name !== types.identifier
     ) {
       break;
     }
-    tokenIndex += 3;
-    children.push(first, second, third);
+    result.length += 3;
+    result.elements.push(first, second, third);
   }
 
-  return {
-    type: types.parameterList,
-    children,
-    length: tokenIndex,
-  };
+  return result;
 }
 
 function parseSubroutineBody(tokens) {
@@ -259,7 +264,7 @@ function parseSubroutineBody(tokens) {
   let tokenIndex = 0;
 
   const leftParenthesis = tokens[tokenIndex++];
-  if (leftParenthesis.type !== types.symbol || leftParenthesis.value !== '{') {
+  if (leftParenthesis.name !== types.symbol || leftParenthesis.value !== '{') {
     return;
   }
 
@@ -270,17 +275,18 @@ function parseSubroutineBody(tokens) {
   const rightParenthesis = tokens[tokenIndex++];
 
   if (
-    rightParenthesis.type !== types.symbol ||
+    rightParenthesis.name !== types.symbol ||
     rightParenthesis.value !== '}'
   ) {
     return;
   }
 
   return {
-    type: types.subroutineBody,
-    children: [
+    name: types.subroutineBody,
+    type: nodeTypes.element,
+    elements: [
       leftParenthesis,
-      ...varDecs.children,
+      ...varDecs.elements,
       statements,
       rightParenthesis,
     ],
@@ -290,7 +296,8 @@ function parseSubroutineBody(tokens) {
 
 function parseStatements(tokens) {
   const result = genericParseList(tokens, parseStatement);
-  result.type = types.statements;
+  result.name = types.statements;
+  result.type = nodeTypes.element;
   return result;
 }
 
@@ -313,23 +320,23 @@ function parseLetStatement(tokens) {
   const letKeyword = tokens[tokenIndex++];
   const varName = tokens[tokenIndex++];
   if (
-    letKeyword.type !== types.keyword ||
+    letKeyword.name !== types.keyword ||
     letKeyword.value !== 'let' ||
-    varName.type !== types.identifier
+    varName.name !== types.identifier
   ) {
     return;
   }
 
   const expressionTokens = [];
   const token = tokens[tokenIndex];
-  if (token.type == types.symbol && token.value === '[') {
+  if (token.name == types.symbol && token.value === '[') {
     tokenIndex++;
     const expression = parseExpression(tokens.slice(tokenIndex));
     if (!expression) return;
     tokenIndex += expression.length;
     const rightParenthesis = tokens[tokenIndex++];
     if (
-      rightParenthesis.type !== types.symbol ||
+      rightParenthesis.name !== types.symbol ||
       rightParenthesis.value !== ']'
     ) {
       return;
@@ -338,7 +345,7 @@ function parseLetStatement(tokens) {
   }
 
   const equalsSign = tokens[tokenIndex++];
-  if (equalsSign.type !== types.symbol || equalsSign.value !== '=') {
+  if (equalsSign.name !== types.symbol || equalsSign.value !== '=') {
     return;
   }
 
@@ -347,13 +354,14 @@ function parseLetStatement(tokens) {
   tokenIndex += expression.length;
   const semicolon = tokens[tokenIndex++];
 
-  if (semicolon.type !== types.symbol || semicolon.value !== ';') {
+  if (semicolon.name !== types.symbol || semicolon.value !== ';') {
     return;
   }
 
   return {
-    type: types.letStatement,
-    children: [
+    name: types.letStatement,
+    type: nodeTypes.element,
+    elements: [
       letKeyword,
       varName,
       ...expressionTokens,
@@ -373,10 +381,10 @@ function parseIfStatement(tokens) {
 
   const token = tokens[tokenIndex];
   let elseTokens = [];
-  if (token.type === types.keyword && token.value === 'else') {
+  if (token.name === types.keyword && token.value === 'else') {
     tokenIndex++;
     const leftBracket = tokens[tokenIndex++];
-    if (leftBracket.type !== types.symbol || leftBracket.value !== '{') {
+    if (leftBracket.name !== types.symbol || leftBracket.value !== '{') {
       return;
     }
 
@@ -384,7 +392,7 @@ function parseIfStatement(tokens) {
     tokenIndex += statements.length;
 
     const rightBracket = tokens[tokenIndex++];
-    if (rightBracket.type !== types.symbol || rightBracket.value !== '}') {
+    if (rightBracket.name !== types.symbol || rightBracket.value !== '}') {
       return;
     }
 
@@ -392,8 +400,9 @@ function parseIfStatement(tokens) {
   }
 
   return {
-    type: types.ifStatement,
-    children: [...ifTokens.children, ...elseTokens],
+    name: types.ifStatement,
+    type: nodeTypes.element,
+    elements: [...ifTokens.elements, ...elseTokens],
     length: tokenIndex,
   };
 }
@@ -411,9 +420,9 @@ function genericParseStatement(tokens, keyword, resultType) {
   const keywordToken = tokens[tokenIndex++];
   const leftParenthesis = tokens[tokenIndex++];
   if (
-    keywordToken.type !== types.keyword ||
+    keywordToken.name !== types.keyword ||
     keywordToken.value !== keyword ||
-    leftParenthesis.type !== types.symbol ||
+    leftParenthesis.name !== types.symbol ||
     leftParenthesis.value !== '('
   ) {
     return;
@@ -425,9 +434,9 @@ function genericParseStatement(tokens, keyword, resultType) {
   const leftBracket = tokens[tokenIndex++];
 
   if (
-    rightParenthesis.type !== types.symbol ||
+    rightParenthesis.name !== types.symbol ||
     rightParenthesis.value !== ')' ||
-    leftBracket.type !== types.symbol ||
+    leftBracket.name !== types.symbol ||
     leftBracket.value !== '{'
   ) {
     return;
@@ -437,13 +446,14 @@ function genericParseStatement(tokens, keyword, resultType) {
   tokenIndex += statements.length;
 
   const rightBracket = tokens[tokenIndex++];
-  if (rightBracket.type !== types.symbol || rightBracket.value !== '}') {
+  if (rightBracket.name !== types.symbol || rightBracket.value !== '}') {
     return;
   }
 
   return {
-    type: resultType,
-    children: [
+    name: resultType,
+    type: nodeTypes.element,
+    elements: [
       keywordToken,
       leftParenthesis,
       expression,
@@ -462,7 +472,7 @@ function parseDoStatement(tokens) {
 
   let tokenIndex = 0;
   const doKeyword = tokens[tokenIndex++];
-  if (doKeyword.type !== types.keyword || doKeyword.value !== 'do') {
+  if (doKeyword.name !== types.keyword || doKeyword.value !== 'do') {
     return;
   }
 
@@ -471,13 +481,14 @@ function parseDoStatement(tokens) {
   tokenIndex += subroutineCall.length;
   const semicolon = tokens[tokenIndex++];
 
-  if (semicolon.type !== types.symbol || semicolon.value !== ';') {
+  if (semicolon.name !== types.symbol || semicolon.value !== ';') {
     return;
   }
 
   return {
-    type: types.doStatement,
-    children: [doKeyword, subroutineCall, semicolon],
+    name: types.doStatement,
+    type: nodeTypes.element,
+    elements: [doKeyword, subroutineCall, semicolon],
     length: tokenIndex,
   };
 }
@@ -490,7 +501,7 @@ function parseReturnStatement(tokens) {
   let tokenIndex = 0;
   const returnKeyword = tokens[tokenIndex++];
   if (
-    returnKeyword.type !== types.keyword ||
+    returnKeyword.name !== types.keyword ||
     returnKeyword.value !== 'return'
   ) {
     return;
@@ -498,7 +509,7 @@ function parseReturnStatement(tokens) {
 
   let expression = [];
   const token = tokens[tokenIndex];
-  if (token.type !== types.symbol || token.value !== ';') {
+  if (token.name !== types.symbol || token.value !== ';') {
     expression = [parseExpression(tokens.slice(tokenIndex))];
     tokenIndex += expression.length;
   }
@@ -506,8 +517,9 @@ function parseReturnStatement(tokens) {
   const semicolon = tokens[tokenIndex++];
 
   return {
-    type: types.returnStatement,
-    children: [returnKeyword, ...expression, semicolon],
+    name: types.returnStatement,
+    type: nodeTypes.element,
+    elements: [returnKeyword, ...expression, semicolon],
     length: tokenIndex,
   };
 }
@@ -524,7 +536,7 @@ function parseExpression(tokens) {
   while (tokenIndex < tokens.length - 1) {
     const op = tokens[tokenIndex];
     const term2 = parseTerm(tokens.slice(tokenIndex + 1));
-    if (op.type !== types.symbol || !ops.includes(op.value) || !term2) {
+    if (op.name !== types.symbol || !ops.includes(op.value) || !term2) {
       break;
     }
     tokenIndex += term2.length + 1;
@@ -532,8 +544,9 @@ function parseExpression(tokens) {
   }
 
   return {
-    type: types.expression,
-    children: [term, ...opTerms],
+    name: types.expression,
+    type: nodeTypes.element,
+    elements: [term, ...opTerms],
     length: tokenIndex,
   };
 }
@@ -551,8 +564,9 @@ function parseTerm(tokens) {
   if (!term) return;
 
   return {
-    type: types.term,
-    children: term.children,
+    name: types.term,
+    type: nodeTypes.element,
+    elements: term.elements,
     length: term.length,
   };
 }
@@ -562,11 +576,11 @@ function isEmpty(tokens) {
 }
 
 function createSingleToken(token) {
-  return { children: [token], length: 1 };
+  return { elements: [token], length: 1 };
 }
 
 function createSingleTokenIfMatchesType(token, type) {
-  return token.type === type ? createSingleToken(token) : undefined;
+  return token.name === type ? createSingleToken(token) : undefined;
 }
 
 function parseIntegerConstant(tokens) {
@@ -607,22 +621,24 @@ function parseVarName(tokens) {
   let tokenIndex = 0;
 
   const token = tokens[tokenIndex++];
-  if (token.type !== types.identifier) return;
+  if (token.name !== types.identifier) return;
 
   const leftBracket = tokens[tokenIndex++];
-  if (leftBracket.type !== types.symbol || leftBracket.value !== '[') {
+  if (leftBracket.name !== types.symbol || leftBracket.value !== '[') {
     return createSingleToken(token);
   }
 
   const expression = parseExpression(tokens.slice(tokenIndex));
   tokenIndex += expression.length;
   const rightBracket = tokens[tokenIndex++];
-  if (rightBracket.type !== types.symbol || rightBracket.value !== ']') {
+  if (rightBracket.name !== types.symbol || rightBracket.value !== ']') {
     return;
   }
 
-  const children = [token, leftBracket, expression, rightBracket];
-  return { children: children, length: tokenIndex };
+  return {
+    elements: [token, leftBracket, expression, rightBracket],
+    length: tokenIndex,
+  };
 }
 
 function parseParenthesizedExpression(tokens) {
@@ -633,7 +649,7 @@ function parseParenthesizedExpression(tokens) {
   let tokenIndex = 0;
 
   const leftParenthesis = tokens[tokenIndex++];
-  if (leftParenthesis.type !== types.symbol || leftParenthesis.value !== '(') {
+  if (leftParenthesis.name !== types.symbol || leftParenthesis.value !== '(') {
     return;
   }
 
@@ -641,14 +657,16 @@ function parseParenthesizedExpression(tokens) {
   tokenIndex += expression.length;
   const rightParenthesis = tokens[tokenIndex++];
   if (
-    rightParenthesis.type !== types.symbol ||
+    rightParenthesis.name !== types.symbol ||
     rightParenthesis.value !== ')'
   ) {
     return;
   }
 
-  const children = [leftParenthesis, expression, rightParenthesis];
-  return { children: children, length: tokenIndex };
+  return {
+    elements: [leftParenthesis, expression, rightParenthesis],
+    length: tokenIndex,
+  };
 }
 
 function parseUnaryOpTerm(tokens) {
@@ -659,15 +677,14 @@ function parseUnaryOpTerm(tokens) {
   let tokenIndex = 0;
 
   const unaryOp = tokens[tokenIndex++];
-  if (unaryOp.type !== types.symbol || !unaryOps.includes(unaryOp.value)) {
+  if (unaryOp.name !== types.symbol || !unaryOps.includes(unaryOp.value)) {
     return;
   }
 
   const term = parseTerm(tokens.slice(tokenIndex));
   tokenIndex += term.length;
 
-  const children = [unaryOp, term];
-  return { children: children, length: tokenIndex };
+  return { elements: [unaryOp, term], length: tokenIndex };
 }
 
 function parseSubroutineCall(tokens) {
@@ -680,8 +697,8 @@ function parseSubroutineCall(tokens) {
   let subroutineName = tokens[tokenIndex++];
   let leftParenthesis = tokens[tokenIndex++];
   if (
-    subroutineName.type !== types.identifier ||
-    leftParenthesis.type !== types.symbol
+    subroutineName.name !== types.identifier ||
+    leftParenthesis.name !== types.symbol
   ) {
     return;
   }
@@ -705,19 +722,20 @@ function parseSubroutineCall(tokens) {
   const rightParenthesis = tokens[tokenIndex++];
 
   if (
-    rightParenthesis.type !== types.symbol ||
+    rightParenthesis.name !== types.symbol ||
     rightParenthesis.value !== ')'
   ) {
     return;
   }
 
   return {
-    type: types.subroutineCall,
-    children: [
+    name: types.subroutineCall,
+    type: nodeTypes.element,
+    elements: [
       ...prefixTokens,
       subroutineName,
       leftParenthesis,
-      ...expressionList.children,
+      ...expressionList.elements,
       rightParenthesis,
     ],
     length: tokenIndex,
@@ -726,8 +744,9 @@ function parseSubroutineCall(tokens) {
 
 function parseExpressionList(tokens) {
   const result = {
-    type: types.expressionList,
-    children: [],
+    name: types.expressionList,
+    type: nodeTypes.element,
+    elements: [],
     length: 0,
   };
 
@@ -740,16 +759,16 @@ function parseExpressionList(tokens) {
     return result;
   }
   result.length += expression.length;
-  result.children.push(expression);
+  result.elements.push(expression);
 
   while (result.length < tokens.length - 1) {
     const first = tokens[result.length];
     const second = parseExpression(tokens.slice(result.length + 1));
-    if (first.type !== types.symbol || first.value !== ',' || !second) {
+    if (first.name !== types.symbol || first.value !== ',' || !second) {
       break;
     }
     result.length += second.length + 1;
-    result.children.push(first, second);
+    result.elements.push(first, second);
   }
 
   return result;

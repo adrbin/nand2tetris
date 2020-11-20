@@ -8,5 +8,8 @@
   },
   "author": "adr",
   "license": "ISC",
-  "type": "module"
+  "type": "module",
+  "dependencies": {
+    "xml-js": "^1.6.11"
+  }
 }

@@ -77,6 +77,11 @@ export const types = {
   expressionList: 'expressionList',
 };
 
+export const nodeTypes = {
+  text: 'text',
+  element: 'element',
+};
+
 export const keywordRegex = new RegExp(`^\\s*(${keywords.join('|')})`);
 export const symbolRegex = new RegExp(`^\\s*([${symbols.join('')}])`);
 export const integerConstantRegex = /^\s*(\d+)/;
