@@ -32,7 +32,7 @@ export const symbols = [
   '.',
   ',',
   ';',
-  '+',
+  '\\+',
   '_',
   '*',
   '\\/',
@@ -41,14 +41,15 @@ export const symbols = [
   '<',
   '>',
   '=',
-  '-',
+  '\\-',
+  '~',
 ];
 
 export const dataTypes = ['int', 'char', 'boolean', 'void'];
 export const staticOrFieldTypes = ['static', 'field'];
 export const subroutineTypes = ['constructor', 'function', 'method'];
-export const ops = ['+', '_', '*', '/', '&', '|', '<', '>', '=', '-'];
-export const unaryOps = ['+', '-'];
+export const ops = ['+', '-', '*', '/', '&', '|', '<', '>', '='];
+export const unaryOps = ['~', '-'];
 export const keywordConsts = ['true', 'false', 'null', 'this'];
 
 export const types = {
@@ -82,4 +83,4 @@ export const integerConstantRegex = /^\s*(\d+)/;
 export const stringConstantRegex = /^\s*"([^\r\n"]*)"/;
 export const identifierRegex = /^\s*([A-Za-z_]\w*)/;
 export const inlineCommentRegex = /^\s*\/\/([^\r\n]*)/;
-export const longCommentRegex = /^\s*\/\*(.*)\*\//;
+export const longCommentRegex = /^\s*\/\*([\s\S]*?)\*\//;

@@ -5,6 +5,7 @@ import {
   subroutineTypes,
   ops,
   unaryOps,
+  keywordConsts,
 } from './constants.js';
 
 export function parse(tokens) {
@@ -375,7 +376,7 @@ function parseIfStatement(tokens) {
   if (token.type === types.keyword && token.value === 'else') {
     tokenIndex++;
     const leftBracket = tokens[tokenIndex++];
-    if (leftBracket.type !== types.symbol || leftBracket.value !== '(') {
+    if (leftBracket.type !== types.symbol || leftBracket.value !== '{') {
       return;
     }
 
@@ -466,6 +467,7 @@ function parseDoStatement(tokens) {
   }
 
   const subroutineCall = parseSubroutineCall(tokens.slice(tokenIndex));
+  if (!subroutineCall) return;
   tokenIndex += subroutineCall.length;
   const semicolon = tokens[tokenIndex++];
 
@@ -559,10 +561,6 @@ function isEmpty(tokens) {
   return !tokens || tokens.length === 0;
 }
 
-function createTokenWithChildren(children) {
-  return { children: children, length: children.length };
-}
-
 function createSingleToken(token) {
   return { children: [token], length: 1 };
 }
@@ -595,7 +593,10 @@ function parseKeywordConstant(tokens) {
   }
 
   const token = tokens[0];
-  return createSingleTokenIfMatchesType(token, types.keywordConstant);
+  if (!keywordConsts.includes(token.value)) {
+    return;
+  }
+  return createSingleTokenIfMatchesType(token, types.keyword);
 }
 
 function parseVarName(tokens) {
@@ -621,7 +622,7 @@ function parseVarName(tokens) {
   }
 
   const children = [token, leftBracket, expression, rightBracket];
-  return createTokenWithChildren(children);
+  return { children: children, length: tokenIndex };
 }
 
 function parseParenthesizedExpression(tokens) {
@@ -647,7 +648,7 @@ function parseParenthesizedExpression(tokens) {
   }
 
   const children = [leftParenthesis, expression, rightParenthesis];
-  return createTokenWithChildren(children);
+  return { children: children, length: tokenIndex };
 }
 
 function parseUnaryOpTerm(tokens) {
@@ -666,7 +667,7 @@ function parseUnaryOpTerm(tokens) {
   tokenIndex += term.length;
 
   const children = [unaryOp, term];
-  return createTokenWithChildren(children);
+  return { children: children, length: tokenIndex };
 }
 
 function parseSubroutineCall(tokens) {
@@ -744,11 +745,7 @@ function parseExpressionList(tokens) {
   while (result.length < tokens.length - 1) {
     const first = tokens[result.length];
     const second = parseExpression(tokens.slice(result.length + 1));
-    if (
-      first.type !== types.symbol ||
-      first.value !== ',' ||
-      second.type !== types.identifier
-    ) {
+    if (first.type !== types.symbol || first.value !== ',' || !second) {
       break;
     }
     result.length += second.length + 1;
