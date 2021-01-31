@@ -1,0 +1,29 @@
+function Main.main
+// call PongGame.newInstance 0
+// expressionList
+call PongGame.newInstance
+
+pop temp 0
+// let game statement
+// call PongGame.getInstance 0
+// expressionList
+call PongGame.getInstance
+
+pop var 0
+
+// call PongGame.run 1
+push var 0
+// expressionList
+call PongGame.run
+
+pop temp 0
+// call PongGame.dispose 1
+push var 0
+// expressionList
+call PongGame.dispose
+
+pop temp 0
+push constant 0
+return
+
+

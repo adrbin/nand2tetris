@@ -1,0 +1,671 @@
+function Square.new
+push 0
+call Memory.alloc 1
+pop pointer 0
+// let x statement
+push argument 0
+pop this 0
+
+// let y statement
+push argument 1
+pop this 1
+
+// let size statement
+push argument 2
+pop this 2
+
+// call Square.draw 1
+push argument 0
+// expressionList
+call Square.draw 1
+
+pop temp 0
+// this
+push pointer 0
+return
+
+
+
+function Square.dispose
+push argument 0
+pop pointer 0
+// call Memory.deAlloc 1
+// expressionList
+// this
+push argument 0
+call Memory.deAlloc 1
+
+pop temp 0
+push constant 0
+return
+
+
+
+function Square.draw
+push argument 0
+pop pointer 0
+// call Screen.setColor 1
+// expressionList
+// true
+push constant 1
+neg
+call Screen.setColor 1
+
+pop temp 0
+// call Screen.drawRectangle 4
+// expressionList
+push argument 0
+pop pointer 0
+push this 0
+push argument 0
+pop pointer 0
+push this 1
+push argument 0
+pop pointer 0
+push this 0
+push argument 0
+pop pointer 0
+push this 2
+add
+
+push argument 0
+pop pointer 0
+push this 1
+push argument 0
+pop pointer 0
+push this 2
+add
+
+call Screen.drawRectangle 4
+
+pop temp 0
+push constant 0
+return
+
+
+
+function Square.erase
+push argument 0
+pop pointer 0
+// call Screen.setColor 1
+// expressionList
+// false
+push constant 0
+call Screen.setColor 1
+
+pop temp 0
+// call Screen.drawRectangle 4
+// expressionList
+push argument 0
+pop pointer 0
+push this 0
+push argument 0
+pop pointer 0
+push this 1
+push argument 0
+pop pointer 0
+push this 0
+push argument 0
+pop pointer 0
+push this 2
+add
+
+push argument 0
+pop pointer 0
+push this 1
+push argument 0
+pop pointer 0
+push this 2
+add
+
+call Screen.drawRectangle 4
+
+pop temp 0
+push constant 0
+return
+
+
+
+function Square.incSize
+push argument 0
+pop pointer 0
+// if
+push argument 0
+pop pointer 0
+push this 1
+push argument 0
+pop pointer 0
+push this 2
+add
+
+push constant 254
+lt
+
+push argument 0
+pop pointer 0
+push this 0
+push argument 0
+pop pointer 0
+push this 2
+add
+
+push constant 510
+lt
+
+and
+
+not
+if-goto IF_undefined
+// call Square.erase 1
+push argument 0
+// expressionList
+call Square.erase 1
+
+pop temp 0
+// let size statement
+push argument 0
+pop pointer 0
+push this 2
+push constant 2
+add
+
+push argument 0
+pop pointer 0
+pop this 2
+
+// call Square.draw 1
+push argument 0
+// expressionList
+call Square.draw 1
+
+pop temp 0
+goto ELSE_undefined
+label IF_undefined
+label ELSE_undefined
+
+push constant 0
+return
+
+
+
+function Square.decSize
+push argument 0
+pop pointer 0
+// if
+push argument 0
+pop pointer 0
+push this 2
+push constant 2
+gt
+
+not
+if-goto IF_undefined
+// call Square.erase 1
+push argument 0
+// expressionList
+call Square.erase 1
+
+pop temp 0
+// let size statement
+push argument 0
+pop pointer 0
+push this 2
+push constant 2
+sub
+
+push argument 0
+pop pointer 0
+pop this 2
+
+// call Square.draw 1
+push argument 0
+// expressionList
+call Square.draw 1
+
+pop temp 0
+goto ELSE_undefined
+label IF_undefined
+label ELSE_undefined
+
+push constant 0
+return
+
+
+
+function Square.moveUp
+push argument 0
+pop pointer 0
+// if
+push argument 0
+pop pointer 0
+push this 1
+push constant 1
+gt
+
+not
+if-goto IF_undefined
+// call Screen.setColor 1
+// expressionList
+// false
+push constant 0
+call Screen.setColor 1
+
+pop temp 0
+// call Screen.drawRectangle 4
+// expressionList
+push argument 0
+pop pointer 0
+push this 0
+push argument 0
+pop pointer 0
+push this 1
+push argument 0
+pop pointer 0
+push this 2
+add
+
+push constant 1
+sub
+
+push argument 0
+pop pointer 0
+push this 0
+push argument 0
+pop pointer 0
+push this 2
+add
+
+push argument 0
+pop pointer 0
+push this 1
+push argument 0
+pop pointer 0
+push this 2
+add
+
+call Screen.drawRectangle 4
+
+pop temp 0
+// let y statement
+push argument 0
+pop pointer 0
+push this 1
+push constant 2
+sub
+
+push argument 0
+pop pointer 0
+pop this 1
+
+// call Screen.setColor 1
+// expressionList
+// true
+push constant 1
+neg
+call Screen.setColor 1
+
+pop temp 0
+// call Screen.drawRectangle 4
+// expressionList
+push argument 0
+pop pointer 0
+push this 0
+push argument 0
+pop pointer 0
+push this 1
+push argument 0
+pop pointer 0
+push this 0
+push argument 0
+pop pointer 0
+push this 2
+add
+
+push argument 0
+pop pointer 0
+push this 1
+push constant 1
+add
+
+call Screen.drawRectangle 4
+
+pop temp 0
+goto ELSE_undefined
+label IF_undefined
+label ELSE_undefined
+
+push constant 0
+return
+
+
+
+function Square.moveDown
+push argument 0
+pop pointer 0
+// if
+push argument 0
+pop pointer 0
+push this 1
+push argument 0
+pop pointer 0
+push this 2
+add
+
+push constant 254
+lt
+
+not
+if-goto IF_undefined
+// call Screen.setColor 1
+// expressionList
+// false
+push constant 0
+call Screen.setColor 1
+
+pop temp 0
+// call Screen.drawRectangle 4
+// expressionList
+push argument 0
+pop pointer 0
+push this 0
+push argument 0
+pop pointer 0
+push this 1
+push argument 0
+pop pointer 0
+push this 0
+push argument 0
+pop pointer 0
+push this 2
+add
+
+push argument 0
+pop pointer 0
+push this 1
+push constant 1
+add
+
+call Screen.drawRectangle 4
+
+pop temp 0
+// let y statement
+push argument 0
+pop pointer 0
+push this 1
+push constant 2
+add
+
+push argument 0
+pop pointer 0
+pop this 1
+
+// call Screen.setColor 1
+// expressionList
+// true
+push constant 1
+neg
+call Screen.setColor 1
+
+pop temp 0
+// call Screen.drawRectangle 4
+// expressionList
+push argument 0
+pop pointer 0
+push this 0
+push argument 0
+pop pointer 0
+push this 1
+push argument 0
+pop pointer 0
+push this 2
+add
+
+push constant 1
+sub
+
+push argument 0
+pop pointer 0
+push this 0
+push argument 0
+pop pointer 0
+push this 2
+add
+
+push argument 0
+pop pointer 0
+push this 1
+push argument 0
+pop pointer 0
+push this 2
+add
+
+call Screen.drawRectangle 4
+
+pop temp 0
+goto ELSE_undefined
+label IF_undefined
+label ELSE_undefined
+
+push constant 0
+return
+
+
+
+function Square.moveLeft
+push argument 0
+pop pointer 0
+// if
+push argument 0
+pop pointer 0
+push this 0
+push constant 1
+gt
+
+not
+if-goto IF_undefined
+// call Screen.setColor 1
+// expressionList
+// false
+push constant 0
+call Screen.setColor 1
+
+pop temp 0
+// call Screen.drawRectangle 4
+// expressionList
+push argument 0
+pop pointer 0
+push this 0
+push argument 0
+pop pointer 0
+push this 2
+add
+
+push constant 1
+sub
+
+push argument 0
+pop pointer 0
+push this 1
+push argument 0
+pop pointer 0
+push this 0
+push argument 0
+pop pointer 0
+push this 2
+add
+
+push argument 0
+pop pointer 0
+push this 1
+push argument 0
+pop pointer 0
+push this 2
+add
+
+call Screen.drawRectangle 4
+
+pop temp 0
+// let x statement
+push argument 0
+pop pointer 0
+push this 0
+push constant 2
+sub
+
+push argument 0
+pop pointer 0
+pop this 0
+
+// call Screen.setColor 1
+// expressionList
+// true
+push constant 1
+neg
+call Screen.setColor 1
+
+pop temp 0
+// call Screen.drawRectangle 4
+// expressionList
+push argument 0
+pop pointer 0
+push this 0
+push argument 0
+pop pointer 0
+push this 1
+push argument 0
+pop pointer 0
+push this 0
+push constant 1
+add
+
+push argument 0
+pop pointer 0
+push this 1
+push argument 0
+pop pointer 0
+push this 2
+add
+
+call Screen.drawRectangle 4
+
+pop temp 0
+goto ELSE_undefined
+label IF_undefined
+label ELSE_undefined
+
+push constant 0
+return
+
+
+
+function Square.moveRight
+push argument 0
+pop pointer 0
+// if
+push argument 0
+pop pointer 0
+push this 0
+push argument 0
+pop pointer 0
+push this 2
+add
+
+push constant 510
+lt
+
+not
+if-goto IF_undefined
+// call Screen.setColor 1
+// expressionList
+// false
+push constant 0
+call Screen.setColor 1
+
+pop temp 0
+// call Screen.drawRectangle 4
+// expressionList
+push argument 0
+pop pointer 0
+push this 0
+push argument 0
+pop pointer 0
+push this 1
+push argument 0
+pop pointer 0
+push this 0
+push constant 1
+add
+
+push argument 0
+pop pointer 0
+push this 1
+push argument 0
+pop pointer 0
+push this 2
+add
+
+call Screen.drawRectangle 4
+
+pop temp 0
+// let x statement
+push argument 0
+pop pointer 0
+push this 0
+push constant 2
+add
+
+push argument 0
+pop pointer 0
+pop this 0
+
+// call Screen.setColor 1
+// expressionList
+// true
+push constant 1
+neg
+call Screen.setColor 1
+
+pop temp 0
+// call Screen.drawRectangle 4
+// expressionList
+push argument 0
+pop pointer 0
+push this 0
+push argument 0
+pop pointer 0
+push this 2
+add
+
+push constant 1
+sub
+
+push argument 0
+pop pointer 0
+push this 1
+push argument 0
+pop pointer 0
+push this 0
+push argument 0
+pop pointer 0
+push this 2
+add
+
+push argument 0
+pop pointer 0
+push this 1
+push argument 0
+pop pointer 0
+push this 2
+add
+
+call Screen.drawRectangle 4
+
+pop temp 0
+goto ELSE_undefined
+label IF_undefined
+label ELSE_undefined
+
+push constant 0
+return
+
+

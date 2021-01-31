@@ -1,0 +1,169 @@
+function Main.main
+// call Main.fillMemory 3
+// expressionList
+// 8001
+push constant 8001
+// 16
+push constant 16
+// 1
+push constant 1
+neg
+call Main.fillMemory
+
+pop temp 0
+// let value statement
+// call Memory.peek 1
+// expressionList
+// 8000
+push constant 8000
+call Memory.peek
+
+pop var 0
+
+// call Main.convert 1
+// expressionList
+push var 0
+call Main.convert
+
+pop temp 0
+push constant 0
+return
+
+
+
+function Main.convert
+// let loop statement
+// true
+push constant 1
+neg
+pop var 2
+
+// while
+label WHILE_undefined
+push var 2
+not
+if-goto WHILE_BREAK_undefined
+// let position statement
+push var 1
+// 1
+push constant 1
+add
+
+pop var 1
+
+// let mask statement
+// call Main.nextMask 1
+// expressionList
+push var 0
+call Main.nextMask
+
+pop var 0
+
+// if
+push var 1
+// 16
+push constant 16
+gt
+
+not
+not
+if-goto IF_undefined
+// if
+push argument 0
+push var 0
+and
+
+// 0
+push constant 0
+eq
+
+not
+not
+if-goto IF_undefined
+// call Memory.poke 2
+// expressionList
+// 8000
+push constant 8000
+push var 1
+add
+
+// 1
+push constant 1
+call Memory.poke
+
+pop temp 0
+goto ELSE_undefined
+label IF_undefined
+label ELSE_undefined
+
+goto ELSE_undefined
+label IF_undefined
+label ELSE_undefined
+
+goto WHILE_undefined
+label WHILE_BREAK_undefined
+
+push constant 0
+return
+
+
+
+function Main.nextMask
+// if
+push argument 0
+// 0
+push constant 0
+eq
+
+not
+if-goto IF_undefined
+// 1
+push constant 1
+return
+
+
+goto ELSE_undefined
+label IF_undefined
+label ELSE_undefined
+
+
+function Main.fillMemory
+// while
+label WHILE_undefined
+push argument 1
+// 0
+push constant 0
+gt
+
+not
+if-goto WHILE_BREAK_undefined
+// call Memory.poke 2
+// expressionList
+push argument 0
+push argument 2
+call Memory.poke
+
+pop temp 0
+// let length statement
+push argument 1
+// 1
+push constant 1
+sub
+
+pop argument 1
+
+// let startAddress statement
+push argument 0
+// 1
+push constant 1
+add
+
+pop argument 0
+
+goto WHILE_undefined
+label WHILE_BREAK_undefined
+
+push constant 0
+return
+
+

@@ -1,0 +1,596 @@
+function PongGame.new
+push 0
+call Memory.alloc 1
+pop pointer 0
+// call Screen.clearScreen 0
+// expressionList
+call Screen.clearScreen
+
+pop temp 0
+// let batWidth statement
+// 50
+push constant 50
+pop this 6
+
+// let bat statement
+// call Bat.new 4
+// expressionList
+// 230
+push constant 230
+// 229
+push constant 229
+push this 6
+// 7
+push constant 7
+call Bat.new
+
+pop this 0
+
+// let ball statement
+// call Ball.new 6
+// expressionList
+// 253
+push constant 253
+// 222
+push constant 222
+// 0
+push constant 0
+// 511
+push constant 511
+// 0
+push constant 0
+// 229
+push constant 229
+call Ball.new
+
+pop this 1
+
+// call Ball.setDestination 3
+push this 1
+// expressionList
+// 400
+push constant 400
+// 0
+push constant 0
+call Ball.setDestination
+
+pop temp 0
+// call Screen.drawRectangle 4
+// expressionList
+// 0
+push constant 0
+// 238
+push constant 238
+// 511
+push constant 511
+// 240
+push constant 240
+call Screen.drawRectangle
+
+pop temp 0
+// call Output.moveCursor 2
+// expressionList
+// 22
+push constant 22
+// 0
+push constant 0
+call Output.moveCursor
+
+pop temp 0
+// call Output.printString 1
+// expressionList
+// "Score: 0"
+call String.new 0
+pop temp 0
+push temp 0
+push constant 83
+call String.appendChar 2
+push temp 0
+push constant 99
+call String.appendChar 2
+push temp 0
+push constant 111
+call String.appendChar 2
+push temp 0
+push constant 114
+call String.appendChar 2
+push temp 0
+push constant 101
+call String.appendChar 2
+push temp 0
+push constant 58
+call String.appendChar 2
+push temp 0
+push constant 32
+call String.appendChar 2
+push temp 0
+push constant 48
+call String.appendChar 2
+
+call Output.printString
+
+pop temp 0
+// let exit statement
+// false
+push constant 0
+pop this 3
+
+// let score statement
+// 0
+push constant 0
+pop this 4
+
+// let wall statement
+// 0
+push constant 0
+pop this 2
+
+// let lastWall statement
+// 0
+push constant 0
+pop this 5
+
+// this
+push pointer 0
+return
+
+
+
+function PongGame.dispose
+push argument 0
+pop pointer 0
+// call Bat.dispose 1
+push argument 0
+pop pointer 0
+push this 0
+// expressionList
+call Bat.dispose
+
+pop temp 0
+// call Ball.dispose 1
+push argument 0
+pop pointer 0
+push this 1
+// expressionList
+call Ball.dispose
+
+pop temp 0
+// call Memory.deAlloc 1
+// expressionList
+// this
+push argument 0
+call Memory.deAlloc
+
+pop temp 0
+push constant 0
+return
+
+
+
+function PongGame.newInstance
+// let instance statement
+// call PongGame.new 0
+// expressionList
+call PongGame.new
+
+pop static 0
+
+push constant 0
+return
+
+
+
+function PongGame.getInstance
+push static 0
+return
+
+
+
+function PongGame.run
+push argument 0
+pop pointer 0
+// while
+label WHILE_undefined
+push argument 0
+pop pointer 0
+push this 3
+not
+not
+if-goto WHILE_BREAK_undefined
+// while
+label WHILE_undefined
+push var 0
+// 0
+push constant 0
+eq
+
+push argument 0
+pop pointer 0
+push this 3
+not
+and
+
+not
+if-goto WHILE_BREAK_undefined
+// let key statement
+// call Keyboard.keyPressed 0
+// expressionList
+call Keyboard.keyPressed
+
+pop var 0
+
+// call Bat.move 1
+push argument 0
+pop pointer 0
+push this 0
+// expressionList
+call Bat.move
+
+pop temp 0
+// call moveBall 0
+push argument 0
+// expressionList
+call moveBall
+
+pop temp 0
+// call Sys.wait 1
+// expressionList
+// 50
+push constant 50
+call Sys.wait
+
+pop temp 0
+goto WHILE_undefined
+label WHILE_BREAK_undefined
+
+// if
+push var 0
+// 130
+push constant 130
+eq
+
+not
+if-goto IF_undefined
+// call Bat.setDirection 2
+push argument 0
+pop pointer 0
+push this 0
+// expressionList
+// 1
+push constant 1
+call Bat.setDirection
+
+pop temp 0
+goto ELSE_undefined
+label IF_undefined
+label ELSE_undefined
+
+// while
+label WHILE_undefined
+push var 0
+// 0
+push constant 0
+eq
+
+not
+push argument 0
+pop pointer 0
+push this 3
+not
+and
+
+not
+if-goto WHILE_BREAK_undefined
+// let key statement
+// call Keyboard.keyPressed 0
+// expressionList
+call Keyboard.keyPressed
+
+pop var 0
+
+// call Bat.move 1
+push argument 0
+pop pointer 0
+push this 0
+// expressionList
+call Bat.move
+
+pop temp 0
+// call moveBall 0
+push argument 0
+// expressionList
+call moveBall
+
+pop temp 0
+// call Sys.wait 1
+// expressionList
+// 50
+push constant 50
+call Sys.wait
+
+pop temp 0
+goto WHILE_undefined
+label WHILE_BREAK_undefined
+
+goto WHILE_undefined
+label WHILE_BREAK_undefined
+
+// if
+push argument 0
+pop pointer 0
+push this 3
+not
+if-goto IF_undefined
+// call Output.moveCursor 2
+// expressionList
+// 10
+push constant 10
+// 27
+push constant 27
+call Output.moveCursor
+
+pop temp 0
+// call Output.printString 1
+// expressionList
+// "Game Over"
+call String.new 0
+pop temp 0
+push temp 0
+push constant 71
+call String.appendChar 2
+push temp 0
+push constant 97
+call String.appendChar 2
+push temp 0
+push constant 109
+call String.appendChar 2
+push temp 0
+push constant 101
+call String.appendChar 2
+push temp 0
+push constant 32
+call String.appendChar 2
+push temp 0
+push constant 79
+call String.appendChar 2
+push temp 0
+push constant 118
+call String.appendChar 2
+push temp 0
+push constant 101
+call String.appendChar 2
+push temp 0
+push constant 114
+call String.appendChar 2
+
+call Output.printString
+
+pop temp 0
+goto ELSE_undefined
+label IF_undefined
+label ELSE_undefined
+
+push constant 0
+return
+
+
+
+function PongGame.moveBall
+push argument 0
+pop pointer 0
+// let wall statement
+// call Ball.move 1
+push argument 0
+pop pointer 0
+push this 1
+// expressionList
+call Ball.move
+
+push argument 0
+pop pointer 0
+pop this 2
+
+// if
+push argument 0
+pop pointer 0
+push this 2
+// 0
+push constant 0
+gt
+
+push argument 0
+pop pointer 0
+push this 2
+push argument 0
+pop pointer 0
+push this 5
+eq
+
+not
+and
+
+not
+if-goto IF_undefined
+// let lastWall statement
+push argument 0
+pop pointer 0
+push this 2
+push argument 0
+pop pointer 0
+pop this 5
+
+// let bouncingDirection statement
+// 0
+push constant 0
+pop var 0
+
+// let batLeft statement
+// call Bat.getLeft 1
+push argument 0
+pop pointer 0
+push this 0
+// expressionList
+call Bat.getLeft
+
+pop var 1
+
+// let batRight statement
+// call Bat.getRight 1
+push argument 0
+pop pointer 0
+push this 0
+// expressionList
+call Bat.getRight
+
+pop var 2
+
+// let ballLeft statement
+// call Ball.getLeft 1
+push argument 0
+pop pointer 0
+push this 1
+// expressionList
+call Ball.getLeft
+
+pop var 3
+
+// let ballRight statement
+// call Ball.getRight 1
+push argument 0
+pop pointer 0
+push this 1
+// expressionList
+call Ball.getRight
+
+pop var 4
+
+// if
+push argument 0
+pop pointer 0
+push this 2
+// 4
+push constant 4
+eq
+
+not
+if-goto IF_undefined
+// let exit statement
+push var 1
+push var 4
+gt
+
+push var 2
+push var 3
+lt
+
+or
+
+push argument 0
+pop pointer 0
+pop this 3
+
+// if
+push argument 0
+pop pointer 0
+push this 3
+not
+not
+if-goto IF_undefined
+// if
+push var 4
+push var 1
+// 10
+push constant 10
+add
+
+lt
+
+not
+if-goto IF_undefined
+// let bouncingDirection statement
+// 1
+push constant 1
+neg
+pop var 0
+
+goto ELSE_undefined
+label IF_undefined
+label ELSE_undefined
+
+// let batWidth statement
+push argument 0
+pop pointer 0
+push this 6
+// 2
+push constant 2
+sub
+
+push argument 0
+pop pointer 0
+pop this 6
+
+// call Bat.setWidth 2
+push argument 0
+pop pointer 0
+push this 0
+// expressionList
+push argument 0
+pop pointer 0
+push this 6
+call Bat.setWidth
+
+pop temp 0
+// let score statement
+push argument 0
+pop pointer 0
+push this 4
+// 1
+push constant 1
+add
+
+push argument 0
+pop pointer 0
+pop this 4
+
+// call Output.moveCursor 2
+// expressionList
+// 22
+push constant 22
+// 7
+push constant 7
+call Output.moveCursor
+
+pop temp 0
+// call Output.printInt 1
+// expressionList
+push argument 0
+pop pointer 0
+push this 4
+call Output.printInt
+
+pop temp 0
+goto ELSE_undefined
+label IF_undefined
+label ELSE_undefined
+
+goto ELSE_undefined
+label IF_undefined
+label ELSE_undefined
+
+// call Ball.bounce 2
+push argument 0
+pop pointer 0
+push this 1
+// expressionList
+push var 0
+call Ball.bounce
+
+pop temp 0
+goto ELSE_undefined
+label IF_undefined
+label ELSE_undefined
+
+push constant 0
+return
+
+
