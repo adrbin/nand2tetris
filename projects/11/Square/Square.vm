@@ -1,5 +1,5 @@
-function Square.new
-push 0
+function Square.new 0
+push constant 3
 call Memory.alloc 1
 pop pointer 0
 // let x statement
@@ -15,7 +15,7 @@ push argument 2
 pop this 2
 
 // call Square.draw 1
-push argument 0
+push pointer 0
 // expressionList
 call Square.draw 1
 
@@ -26,13 +26,13 @@ return
 
 
 
-function Square.dispose
+function Square.dispose 0
 push argument 0
 pop pointer 0
 // call Memory.deAlloc 1
 // expressionList
 // this
-push argument 0
+push pointer 0
 call Memory.deAlloc 1
 
 pop temp 0
@@ -41,7 +41,7 @@ return
 
 
 
-function Square.draw
+function Square.draw 0
 push argument 0
 pop pointer 0
 // call Screen.setColor 1
@@ -54,25 +54,13 @@ call Screen.setColor 1
 pop temp 0
 // call Screen.drawRectangle 4
 // expressionList
-push argument 0
-pop pointer 0
 push this 0
-push argument 0
-pop pointer 0
 push this 1
-push argument 0
-pop pointer 0
 push this 0
-push argument 0
-pop pointer 0
 push this 2
 add
 
-push argument 0
-pop pointer 0
 push this 1
-push argument 0
-pop pointer 0
 push this 2
 add
 
@@ -84,7 +72,7 @@ return
 
 
 
-function Square.erase
+function Square.erase 0
 push argument 0
 pop pointer 0
 // call Screen.setColor 1
@@ -96,25 +84,13 @@ call Screen.setColor 1
 pop temp 0
 // call Screen.drawRectangle 4
 // expressionList
-push argument 0
-pop pointer 0
 push this 0
-push argument 0
-pop pointer 0
 push this 1
-push argument 0
-pop pointer 0
 push this 0
-push argument 0
-pop pointer 0
 push this 2
 add
 
-push argument 0
-pop pointer 0
 push this 1
-push argument 0
-pop pointer 0
 push this 2
 add
 
@@ -126,26 +102,18 @@ return
 
 
 
-function Square.incSize
+function Square.incSize 0
 push argument 0
 pop pointer 0
 // if
-push argument 0
-pop pointer 0
 push this 1
-push argument 0
-pop pointer 0
 push this 2
 add
 
 push constant 254
 lt
 
-push argument 0
-pop pointer 0
 push this 0
-push argument 0
-pop pointer 0
 push this 2
 add
 
@@ -155,95 +123,83 @@ lt
 and
 
 not
-if-goto IF_undefined
+if-goto ELSE_1169
 // call Square.erase 1
-push argument 0
+push pointer 0
 // expressionList
 call Square.erase 1
 
 pop temp 0
 // let size statement
-push argument 0
-pop pointer 0
 push this 2
 push constant 2
 add
 
-push argument 0
-pop pointer 0
 pop this 2
 
 // call Square.draw 1
-push argument 0
+push pointer 0
 // expressionList
 call Square.draw 1
 
 pop temp 0
-goto ELSE_undefined
-label IF_undefined
-label ELSE_undefined
+goto IF_END_1169
+label ELSE_1169
+label IF_END_1169
 
 push constant 0
 return
 
 
 
-function Square.decSize
+function Square.decSize 0
 push argument 0
 pop pointer 0
 // if
-push argument 0
-pop pointer 0
 push this 2
 push constant 2
 gt
 
 not
-if-goto IF_undefined
+if-goto ELSE_1398
 // call Square.erase 1
-push argument 0
+push pointer 0
 // expressionList
 call Square.erase 1
 
 pop temp 0
 // let size statement
-push argument 0
-pop pointer 0
 push this 2
 push constant 2
 sub
 
-push argument 0
-pop pointer 0
 pop this 2
 
 // call Square.draw 1
-push argument 0
+push pointer 0
 // expressionList
 call Square.draw 1
 
 pop temp 0
-goto ELSE_undefined
-label IF_undefined
-label ELSE_undefined
+goto IF_END_1398
+label ELSE_1398
+label IF_END_1398
 
 push constant 0
 return
 
 
 
-function Square.moveUp
+function Square.moveUp 0
 push argument 0
 pop pointer 0
 // if
-push argument 0
-pop pointer 0
 push this 1
 push constant 1
 gt
 
 not
-if-goto IF_undefined
+if-goto ELSE_1588
 // call Screen.setColor 1
 // expressionList
 // false
@@ -253,33 +209,19 @@ call Screen.setColor 1
 pop temp 0
 // call Screen.drawRectangle 4
 // expressionList
-push argument 0
-pop pointer 0
 push this 0
-push argument 0
-pop pointer 0
 push this 1
-push argument 0
-pop pointer 0
 push this 2
 add
 
 push constant 1
 sub
 
-push argument 0
-pop pointer 0
 push this 0
-push argument 0
-pop pointer 0
 push this 2
 add
 
-push argument 0
-pop pointer 0
 push this 1
-push argument 0
-pop pointer 0
 push this 2
 add
 
@@ -287,14 +229,10 @@ call Screen.drawRectangle 4
 
 pop temp 0
 // let y statement
-push argument 0
-pop pointer 0
 push this 1
 push constant 2
 sub
 
-push argument 0
-pop pointer 0
 pop this 1
 
 // call Screen.setColor 1
@@ -307,22 +245,12 @@ call Screen.setColor 1
 pop temp 0
 // call Screen.drawRectangle 4
 // expressionList
-push argument 0
-pop pointer 0
 push this 0
-push argument 0
-pop pointer 0
 push this 1
-push argument 0
-pop pointer 0
 push this 0
-push argument 0
-pop pointer 0
 push this 2
 add
 
-push argument 0
-pop pointer 0
 push this 1
 push constant 1
 add
@@ -330,24 +258,20 @@ add
 call Screen.drawRectangle 4
 
 pop temp 0
-goto ELSE_undefined
-label IF_undefined
-label ELSE_undefined
+goto IF_END_1588
+label ELSE_1588
+label IF_END_1588
 
 push constant 0
 return
 
 
 
-function Square.moveDown
+function Square.moveDown 0
 push argument 0
 pop pointer 0
 // if
-push argument 0
-pop pointer 0
 push this 1
-push argument 0
-pop pointer 0
 push this 2
 add
 
@@ -355,7 +279,7 @@ push constant 254
 lt
 
 not
-if-goto IF_undefined
+if-goto ELSE_1933
 // call Screen.setColor 1
 // expressionList
 // false
@@ -365,22 +289,12 @@ call Screen.setColor 1
 pop temp 0
 // call Screen.drawRectangle 4
 // expressionList
-push argument 0
-pop pointer 0
 push this 0
-push argument 0
-pop pointer 0
 push this 1
-push argument 0
-pop pointer 0
 push this 0
-push argument 0
-pop pointer 0
 push this 2
 add
 
-push argument 0
-pop pointer 0
 push this 1
 push constant 1
 add
@@ -389,14 +303,10 @@ call Screen.drawRectangle 4
 
 pop temp 0
 // let y statement
-push argument 0
-pop pointer 0
 push this 1
 push constant 2
 add
 
-push argument 0
-pop pointer 0
 pop this 1
 
 // call Screen.setColor 1
@@ -409,60 +319,44 @@ call Screen.setColor 1
 pop temp 0
 // call Screen.drawRectangle 4
 // expressionList
-push argument 0
-pop pointer 0
 push this 0
-push argument 0
-pop pointer 0
 push this 1
-push argument 0
-pop pointer 0
 push this 2
 add
 
 push constant 1
 sub
 
-push argument 0
-pop pointer 0
 push this 0
-push argument 0
-pop pointer 0
 push this 2
 add
 
-push argument 0
-pop pointer 0
 push this 1
-push argument 0
-pop pointer 0
 push this 2
 add
 
 call Screen.drawRectangle 4
 
 pop temp 0
-goto ELSE_undefined
-label IF_undefined
-label ELSE_undefined
+goto IF_END_1933
+label ELSE_1933
+label IF_END_1933
 
 push constant 0
 return
 
 
 
-function Square.moveLeft
+function Square.moveLeft 0
 push argument 0
 pop pointer 0
 // if
-push argument 0
-pop pointer 0
 push this 0
 push constant 1
 gt
 
 not
-if-goto IF_undefined
+if-goto ELSE_2289
 // call Screen.setColor 1
 // expressionList
 // false
@@ -472,33 +366,19 @@ call Screen.setColor 1
 pop temp 0
 // call Screen.drawRectangle 4
 // expressionList
-push argument 0
-pop pointer 0
 push this 0
-push argument 0
-pop pointer 0
 push this 2
 add
 
 push constant 1
 sub
 
-push argument 0
-pop pointer 0
 push this 1
-push argument 0
-pop pointer 0
 push this 0
-push argument 0
-pop pointer 0
 push this 2
 add
 
-push argument 0
-pop pointer 0
 push this 1
-push argument 0
-pop pointer 0
 push this 2
 add
 
@@ -506,14 +386,10 @@ call Screen.drawRectangle 4
 
 pop temp 0
 // let x statement
-push argument 0
-pop pointer 0
 push this 0
 push constant 2
 sub
 
-push argument 0
-pop pointer 0
 pop this 0
 
 // call Screen.setColor 1
@@ -526,47 +402,33 @@ call Screen.setColor 1
 pop temp 0
 // call Screen.drawRectangle 4
 // expressionList
-push argument 0
-pop pointer 0
 push this 0
-push argument 0
-pop pointer 0
 push this 1
-push argument 0
-pop pointer 0
 push this 0
 push constant 1
 add
 
-push argument 0
-pop pointer 0
 push this 1
-push argument 0
-pop pointer 0
 push this 2
 add
 
 call Screen.drawRectangle 4
 
 pop temp 0
-goto ELSE_undefined
-label IF_undefined
-label ELSE_undefined
+goto IF_END_2289
+label ELSE_2289
+label IF_END_2289
 
 push constant 0
 return
 
 
 
-function Square.moveRight
+function Square.moveRight 0
 push argument 0
 pop pointer 0
 // if
-push argument 0
-pop pointer 0
 push this 0
-push argument 0
-pop pointer 0
 push this 2
 add
 
@@ -574,7 +436,7 @@ push constant 510
 lt
 
 not
-if-goto IF_undefined
+if-goto ELSE_2636
 // call Screen.setColor 1
 // expressionList
 // false
@@ -584,23 +446,13 @@ call Screen.setColor 1
 pop temp 0
 // call Screen.drawRectangle 4
 // expressionList
-push argument 0
-pop pointer 0
 push this 0
-push argument 0
-pop pointer 0
 push this 1
-push argument 0
-pop pointer 0
 push this 0
 push constant 1
 add
 
-push argument 0
-pop pointer 0
 push this 1
-push argument 0
-pop pointer 0
 push this 2
 add
 
@@ -608,14 +460,10 @@ call Screen.drawRectangle 4
 
 pop temp 0
 // let x statement
-push argument 0
-pop pointer 0
 push this 0
 push constant 2
 add
 
-push argument 0
-pop pointer 0
 pop this 0
 
 // call Screen.setColor 1
@@ -628,42 +476,28 @@ call Screen.setColor 1
 pop temp 0
 // call Screen.drawRectangle 4
 // expressionList
-push argument 0
-pop pointer 0
 push this 0
-push argument 0
-pop pointer 0
 push this 2
 add
 
 push constant 1
 sub
 
-push argument 0
-pop pointer 0
 push this 1
-push argument 0
-pop pointer 0
 push this 0
-push argument 0
-pop pointer 0
 push this 2
 add
 
-push argument 0
-pop pointer 0
 push this 1
-push argument 0
-pop pointer 0
 push this 2
 add
 
 call Screen.drawRectangle 4
 
 pop temp 0
-goto ELSE_undefined
-label IF_undefined
-label ELSE_undefined
+goto IF_END_2636
+label ELSE_2636
+label IF_END_2636
 
 push constant 0
 return

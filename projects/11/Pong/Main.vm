@@ -1,26 +1,26 @@
-function Main.main
+function Main.main 1
 // call PongGame.newInstance 0
 // expressionList
-call PongGame.newInstance
+call PongGame.newInstance 0
 
 pop temp 0
 // let game statement
 // call PongGame.getInstance 0
 // expressionList
-call PongGame.getInstance
+call PongGame.getInstance 0
 
-pop var 0
+pop local 0
 
 // call PongGame.run 1
-push var 0
+push local 0
 // expressionList
-call PongGame.run
+call PongGame.run 1
 
 pop temp 0
 // call PongGame.dispose 1
-push var 0
+push local 0
 // expressionList
-call PongGame.dispose
+call PongGame.dispose 1
 
 pop temp 0
 push constant 0

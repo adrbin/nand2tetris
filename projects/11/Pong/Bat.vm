@@ -1,5 +1,5 @@
-function Bat.new
-push 0
+function Bat.new 0
+push constant 5
 call Memory.alloc 1
 pop pointer 0
 // let x statement
@@ -19,14 +19,13 @@ push argument 3
 pop this 3
 
 // let direction statement
-// 2
 push constant 2
 pop this 4
 
-// call show 0
-push argument 0
+// call Bat.show 1
+push pointer 0
 // expressionList
-call show
+call Bat.show 1
 
 pop temp 0
 // this
@@ -35,14 +34,14 @@ return
 
 
 
-function Bat.dispose
+function Bat.dispose 0
 push argument 0
 pop pointer 0
 // call Memory.deAlloc 1
 // expressionList
 // this
-push argument 0
-call Memory.deAlloc
+push pointer 0
+call Memory.deAlloc 1
 
 pop temp 0
 push constant 0
@@ -50,7 +49,7 @@ return
 
 
 
-function Bat.show
+function Bat.show 0
 push argument 0
 pop pointer 0
 // call Screen.setColor 1
@@ -58,13 +57,13 @@ pop pointer 0
 // true
 push constant 1
 neg
-call Screen.setColor
+call Screen.setColor 1
 
 pop temp 0
-// call draw 0
-push argument 0
+// call Bat.draw 1
+push pointer 0
 // expressionList
-call draw
+call Bat.draw 1
 
 pop temp 0
 push constant 0
@@ -72,20 +71,20 @@ return
 
 
 
-function Bat.hide
+function Bat.hide 0
 push argument 0
 pop pointer 0
 // call Screen.setColor 1
 // expressionList
 // false
 push constant 0
-call Screen.setColor
+call Screen.setColor 1
 
 pop temp 0
-// call draw 0
-push argument 0
+// call Bat.draw 1
+push pointer 0
 // expressionList
-call draw
+call Bat.draw 1
 
 pop temp 0
 push constant 0
@@ -93,34 +92,22 @@ return
 
 
 
-function Bat.draw
+function Bat.draw 0
 push argument 0
 pop pointer 0
 // call Screen.drawRectangle 4
 // expressionList
-push argument 0
-pop pointer 0
 push this 0
-push argument 0
-pop pointer 0
 push this 1
-push argument 0
-pop pointer 0
 push this 0
-push argument 0
-pop pointer 0
 push this 2
 add
 
-push argument 0
-pop pointer 0
 push this 1
-push argument 0
-pop pointer 0
 push this 3
 add
 
-call Screen.drawRectangle
+call Screen.drawRectangle 4
 
 pop temp 0
 push constant 0
@@ -128,13 +115,11 @@ return
 
 
 
-function Bat.setDirection
+function Bat.setDirection 0
 push argument 0
 pop pointer 0
 // let direction statement
-push argument 0
-push argument 0
-pop pointer 0
+push argument 1
 pop this 4
 
 push constant 0
@@ -142,9 +127,7 @@ return
 
 
 
-function Bat.getLeft
-push argument 0
-pop pointer 0
+function Bat.getLeft 0
 push argument 0
 pop pointer 0
 push this 0
@@ -152,14 +135,10 @@ return
 
 
 
-function Bat.getRight
-push argument 0
-pop pointer 0
+function Bat.getRight 0
 push argument 0
 pop pointer 0
 push this 0
-push argument 0
-pop pointer 0
 push this 2
 add
 
@@ -167,25 +146,23 @@ return
 
 
 
-function Bat.setWidth
+function Bat.setWidth 0
 push argument 0
 pop pointer 0
-// call hide 0
-push argument 0
+// call Bat.hide 1
+push pointer 0
 // expressionList
-call hide
+call Bat.hide 1
 
 pop temp 0
 // let width statement
-push argument 0
-push argument 0
-pop pointer 0
+push argument 1
 pop this 2
 
-// call show 0
-push argument 0
+// call Bat.show 1
+push pointer 0
 // expressionList
-call show
+call Bat.show 1
 
 pop temp 0
 push constant 0
@@ -193,97 +170,67 @@ return
 
 
 
-function Bat.move
+function Bat.move 0
 push argument 0
 pop pointer 0
 // if
-push argument 0
-pop pointer 0
 push this 4
-// 1
 push constant 1
 eq
 
 not
-if-goto IF_undefined
+if-goto ELSE_2360
 // let x statement
-push argument 0
-pop pointer 0
 push this 0
-// 4
 push constant 4
 sub
 
-push argument 0
-pop pointer 0
 pop this 0
 
 // if
-push argument 0
-pop pointer 0
 push this 0
-// 0
 push constant 0
 lt
 
 not
-if-goto IF_undefined
+if-goto ELSE_2415
 // let x statement
-// 0
 push constant 0
-push argument 0
-pop pointer 0
 pop this 0
 
-goto ELSE_undefined
-label IF_undefined
-label ELSE_undefined
+goto IF_END_2415
+label ELSE_2415
+label IF_END_2415
 
 // call Screen.setColor 1
 // expressionList
 // false
 push constant 0
-call Screen.setColor
+call Screen.setColor 1
 
 pop temp 0
 // call Screen.drawRectangle 4
 // expressionList
-push argument 0
-pop pointer 0
 push this 0
-push argument 0
-pop pointer 0
 push this 2
 add
 
-// 1
 push constant 1
 add
 
-push argument 0
-pop pointer 0
 push this 1
-push argument 0
-pop pointer 0
 push this 0
-push argument 0
-pop pointer 0
 push this 2
 add
 
-// 4
 push constant 4
 add
 
-push argument 0
-pop pointer 0
 push this 1
-push argument 0
-pop pointer 0
 push this 3
 add
 
-call Screen.drawRectangle
+call Screen.drawRectangle 4
 
 pop temp 0
 // call Screen.setColor 1
@@ -291,38 +238,109 @@ pop temp 0
 // true
 push constant 1
 neg
-call Screen.setColor
+call Screen.setColor 1
 
 pop temp 0
 // call Screen.drawRectangle 4
 // expressionList
-push argument 0
-pop pointer 0
 push this 0
-push argument 0
-pop pointer 0
 push this 1
-push argument 0
-pop pointer 0
 push this 0
-// 3
 push constant 3
 add
 
-push argument 0
-pop pointer 0
 push this 1
-push argument 0
-pop pointer 0
 push this 3
 add
 
-call Screen.drawRectangle
+call Screen.drawRectangle 4
 
 pop temp 0
-goto ELSE_undefined
-label IF_undefined
-label ELSE_undefined
+goto IF_END_2360
+label ELSE_2360
+// let x statement
+push this 0
+push constant 4
+add
+
+pop this 0
+
+// if
+push this 0
+push this 2
+add
+
+push constant 511
+gt
+
+not
+if-goto ELSE_2738
+// let x statement
+push constant 511
+push this 2
+sub
+
+pop this 0
+
+goto IF_END_2738
+label ELSE_2738
+label IF_END_2738
+
+// call Screen.setColor 1
+// expressionList
+// false
+push constant 0
+call Screen.setColor 1
+
+pop temp 0
+// call Screen.drawRectangle 4
+// expressionList
+push this 0
+push constant 4
+sub
+
+push this 1
+push this 0
+push constant 1
+sub
+
+push this 1
+push this 3
+add
+
+call Screen.drawRectangle 4
+
+pop temp 0
+// call Screen.setColor 1
+// expressionList
+// true
+push constant 1
+neg
+call Screen.setColor 1
+
+pop temp 0
+// call Screen.drawRectangle 4
+// expressionList
+push this 0
+push this 2
+add
+
+push constant 3
+sub
+
+push this 1
+push this 0
+push this 2
+add
+
+push this 1
+push this 3
+add
+
+call Screen.drawRectangle 4
+
+pop temp 0
+label IF_END_2360
 
 push constant 0
 return

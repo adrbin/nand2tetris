@@ -1,9 +1,10 @@
-function Main.main
+function Main.main 4
 // let length statement
 // call Keyboard.readInt 1
 // expressionList
 // "How many numbers? "
-call String.new 0
+push constant 18
+call String.new 1
 pop temp 0
 push temp 0
 push constant 72
@@ -60,36 +61,36 @@ push temp 0
 push constant 32
 call String.appendChar 2
 
-call Keyboard.readInt
+call Keyboard.readInt 1
 
-pop var 1
+pop local 1
 
 // let a statement
 // call Array.new 1
 // expressionList
-push var 1
-call Array.new
+push local 1
+call Array.new 1
 
-pop var 0
+pop local 0
 
 // let i statement
-// 0
 push constant 0
-pop var 2
+pop local 2
 
 // while
-label WHILE_undefined
-push var 2
-push var 1
+label WHILE_508
+push local 2
+push local 1
 lt
 
 not
-if-goto WHILE_BREAK_undefined
+if-goto WHILE_END_508
 // let a statement with an array
 // call Keyboard.readInt 1
 // expressionList
 // "Enter a number: "
-call String.new 0
+push constant 16
+call String.new 1
 pop temp 0
 push temp 0
 push constant 69
@@ -140,41 +141,41 @@ push temp 0
 push constant 32
 call String.appendChar 2
 
-call Keyboard.readInt
+call Keyboard.readInt 1
 
-push var 2
-push var 0
+push local 2
+push local 0
 add
 pop pointer 1
 pop that 0
 
 // let sum statement
-push var 3
-push var 0
-push var 2
+push local 3
+push local 0
+push local 2
 add
 pop pointer 1
 push that 0
 
 add
 
-pop var 3
+pop local 3
 
 // let i statement
-push var 2
-// 1
+push local 2
 push constant 1
 add
 
-pop var 2
+pop local 2
 
-goto WHILE_undefined
-label WHILE_BREAK_undefined
+goto WHILE_508
+label WHILE_END_508
 
 // call Output.printString 1
 // expressionList
 // "The average is "
-call String.new 0
+push constant 15
+call String.new 1
 pop temp 0
 push temp 0
 push constant 84
@@ -222,16 +223,16 @@ push temp 0
 push constant 32
 call String.appendChar 2
 
-call Output.printString
+call Output.printString 1
 
 pop temp 0
 // call Output.printInt 1
 // expressionList
-push var 3
-push var 1
-Math.divide
+push local 3
+push local 1
+call Math.divide 2
 
-call Output.printInt
+call Output.printInt 1
 
 pop temp 0
 push constant 0

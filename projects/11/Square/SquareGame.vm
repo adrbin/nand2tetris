@@ -1,5 +1,5 @@
-function SquareGame.new
-push 0
+function SquareGame.new 0
+push constant 2
 call Memory.alloc 1
 pop pointer 0
 // let square statement
@@ -22,12 +22,10 @@ return
 
 
 
-function SquareGame.dispose
+function SquareGame.dispose 0
 push argument 0
 pop pointer 0
 // call Square.dispose 1
-push argument 0
-pop pointer 0
 push this 0
 // expressionList
 call Square.dispose 1
@@ -36,7 +34,7 @@ pop temp 0
 // call Memory.deAlloc 1
 // expressionList
 // this
-push argument 0
+push pointer 0
 call Memory.deAlloc 1
 
 pop temp 0
@@ -45,92 +43,76 @@ return
 
 
 
-function SquareGame.moveSquare
+function SquareGame.moveSquare 0
 push argument 0
 pop pointer 0
 // if
-push argument 0
-pop pointer 0
 push this 1
 push constant 1
 eq
 
 not
-if-goto IF_undefined
+if-goto ELSE_1513
 // call Square.moveUp 1
-push argument 0
-pop pointer 0
 push this 0
 // expressionList
 call Square.moveUp 1
 
 pop temp 0
-goto ELSE_undefined
-label IF_undefined
-label ELSE_undefined
+goto IF_END_1513
+label ELSE_1513
+label IF_END_1513
 
 // if
-push argument 0
-pop pointer 0
 push this 1
 push constant 2
 eq
 
 not
-if-goto IF_undefined
+if-goto ELSE_1563
 // call Square.moveDown 1
-push argument 0
-pop pointer 0
 push this 0
 // expressionList
 call Square.moveDown 1
 
 pop temp 0
-goto ELSE_undefined
-label IF_undefined
-label ELSE_undefined
+goto IF_END_1563
+label ELSE_1563
+label IF_END_1563
 
 // if
-push argument 0
-pop pointer 0
 push this 1
 push constant 3
 eq
 
 not
-if-goto IF_undefined
+if-goto ELSE_1615
 // call Square.moveLeft 1
-push argument 0
-pop pointer 0
 push this 0
 // expressionList
 call Square.moveLeft 1
 
 pop temp 0
-goto ELSE_undefined
-label IF_undefined
-label ELSE_undefined
+goto IF_END_1615
+label ELSE_1615
+label IF_END_1615
 
 // if
-push argument 0
-pop pointer 0
 push this 1
 push constant 4
 eq
 
 not
-if-goto IF_undefined
+if-goto ELSE_1667
 // call Square.moveRight 1
-push argument 0
-pop pointer 0
 push this 0
 // expressionList
 call Square.moveRight 1
 
 pop temp 0
-goto ELSE_undefined
-label IF_undefined
-label ELSE_undefined
+goto IF_END_1667
+label ELSE_1667
+label IF_END_1667
 
 // call Sys.wait 1
 // expressionList
@@ -143,7 +125,7 @@ return
 
 
 
-function SquareGame.run
+function SquareGame.run 2
 push argument 0
 pop pointer 0
 // let exit statement
@@ -152,19 +134,19 @@ push constant 0
 pop local 1
 
 // while
-label WHILE_undefined
+label WHILE_2017
 push local 1
 not
 not
-if-goto WHILE_BREAK_undefined
+if-goto WHILE_END_2017
 // while
-label WHILE_undefined
+label WHILE_2091
 push local 0
 push constant 0
 eq
 
 not
-if-goto WHILE_BREAK_undefined
+if-goto WHILE_END_2091
 // let key statement
 // call Keyboard.keyPressed 0
 // expressionList
@@ -173,13 +155,13 @@ call Keyboard.keyPressed 0
 pop local 0
 
 // call SquareGame.moveSquare 1
-push argument 0
+push pointer 0
 // expressionList
 call SquareGame.moveSquare 1
 
 pop temp 0
-goto WHILE_undefined
-label WHILE_BREAK_undefined
+goto WHILE_2091
+label WHILE_END_2091
 
 // if
 push local 0
@@ -187,16 +169,16 @@ push constant 81
 eq
 
 not
-if-goto IF_undefined
+if-goto ELSE_2207
 // let exit statement
 // true
 push constant 1
 neg
 pop local 1
 
-goto ELSE_undefined
-label IF_undefined
-label ELSE_undefined
+goto IF_END_2207
+label ELSE_2207
+label IF_END_2207
 
 // if
 push local 0
@@ -204,18 +186,16 @@ push constant 90
 eq
 
 not
-if-goto IF_undefined
+if-goto ELSE_2266
 // call Square.decSize 1
-push argument 0
-pop pointer 0
 push this 0
 // expressionList
 call Square.decSize 1
 
 pop temp 0
-goto ELSE_undefined
-label IF_undefined
-label ELSE_undefined
+goto IF_END_2266
+label ELSE_2266
+label IF_END_2266
 
 // if
 push local 0
@@ -223,18 +203,16 @@ push constant 88
 eq
 
 not
-if-goto IF_undefined
+if-goto ELSE_2325
 // call Square.incSize 1
-push argument 0
-pop pointer 0
 push this 0
 // expressionList
 call Square.incSize 1
 
 pop temp 0
-goto ELSE_undefined
-label IF_undefined
-label ELSE_undefined
+goto IF_END_2325
+label ELSE_2325
+label IF_END_2325
 
 // if
 push local 0
@@ -242,16 +220,14 @@ push constant 131
 eq
 
 not
-if-goto IF_undefined
+if-goto ELSE_2384
 // let direction statement
 push constant 1
-push argument 0
-pop pointer 0
 pop this 1
 
-goto ELSE_undefined
-label IF_undefined
-label ELSE_undefined
+goto IF_END_2384
+label ELSE_2384
+label IF_END_2384
 
 // if
 push local 0
@@ -259,16 +235,14 @@ push constant 133
 eq
 
 not
-if-goto IF_undefined
+if-goto ELSE_2446
 // let direction statement
 push constant 2
-push argument 0
-pop pointer 0
 pop this 1
 
-goto ELSE_undefined
-label IF_undefined
-label ELSE_undefined
+goto IF_END_2446
+label ELSE_2446
+label IF_END_2446
 
 // if
 push local 0
@@ -276,16 +250,14 @@ push constant 130
 eq
 
 not
-if-goto IF_undefined
+if-goto ELSE_2510
 // let direction statement
 push constant 3
-push argument 0
-pop pointer 0
 pop this 1
 
-goto ELSE_undefined
-label IF_undefined
-label ELSE_undefined
+goto IF_END_2510
+label ELSE_2510
+label IF_END_2510
 
 // if
 push local 0
@@ -293,26 +265,24 @@ push constant 132
 eq
 
 not
-if-goto IF_undefined
+if-goto ELSE_2574
 // let direction statement
 push constant 4
-push argument 0
-pop pointer 0
 pop this 1
 
-goto ELSE_undefined
-label IF_undefined
-label ELSE_undefined
+goto IF_END_2574
+label ELSE_2574
+label IF_END_2574
 
 // while
-label WHILE_undefined
+label WHILE_2687
 push local 0
 push constant 0
 eq
 
 not
 not
-if-goto WHILE_BREAK_undefined
+if-goto WHILE_END_2687
 // let key statement
 // call Keyboard.keyPressed 0
 // expressionList
@@ -321,16 +291,16 @@ call Keyboard.keyPressed 0
 pop local 0
 
 // call SquareGame.moveSquare 1
-push argument 0
+push pointer 0
 // expressionList
 call SquareGame.moveSquare 1
 
 pop temp 0
-goto WHILE_undefined
-label WHILE_BREAK_undefined
+goto WHILE_2687
+label WHILE_END_2687
 
-goto WHILE_undefined
-label WHILE_BREAK_undefined
+goto WHILE_2017
+label WHILE_END_2017
 
 push constant 0
 return

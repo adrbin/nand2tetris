@@ -1,5 +1,5 @@
-function Ball.new
-push 0
+function Ball.new 0
+push constant 15
 call Memory.alloc 1
 pop pointer 0
 // let x statement
@@ -16,7 +16,6 @@ pop this 10
 
 // let rightWall statement
 push argument 3
-// 6
 push constant 6
 sub
 
@@ -28,21 +27,19 @@ pop this 12
 
 // let bottomWall statement
 push argument 5
-// 6
 push constant 6
 sub
 
 pop this 13
 
 // let wall statement
-// 0
 push constant 0
 pop this 14
 
-// call show 0
-push argument 0
+// call Ball.show 1
+push pointer 0
 // expressionList
-call show
+call Ball.show 1
 
 pop temp 0
 // this
@@ -51,14 +48,14 @@ return
 
 
 
-function Ball.dispose
+function Ball.dispose 0
 push argument 0
 pop pointer 0
 // call Memory.deAlloc 1
 // expressionList
 // this
-push argument 0
-call Memory.deAlloc
+push pointer 0
+call Memory.deAlloc 1
 
 pop temp 0
 push constant 0
@@ -66,7 +63,7 @@ return
 
 
 
-function Ball.show
+function Ball.show 0
 push argument 0
 pop pointer 0
 // call Screen.setColor 1
@@ -74,13 +71,13 @@ pop pointer 0
 // true
 push constant 1
 neg
-call Screen.setColor
+call Screen.setColor 1
 
 pop temp 0
-// call draw 0
-push argument 0
+// call Ball.draw 1
+push pointer 0
 // expressionList
-call draw
+call Ball.draw 1
 
 pop temp 0
 push constant 0
@@ -88,20 +85,20 @@ return
 
 
 
-function Ball.hide
+function Ball.hide 0
 push argument 0
 pop pointer 0
 // call Screen.setColor 1
 // expressionList
 // false
 push constant 0
-call Screen.setColor
+call Screen.setColor 1
 
 pop temp 0
-// call draw 0
-push argument 0
+// call Ball.draw 1
+push pointer 0
 // expressionList
-call draw
+call Ball.draw 1
 
 pop temp 0
 push constant 0
@@ -109,32 +106,22 @@ return
 
 
 
-function Ball.draw
+function Ball.draw 0
 push argument 0
 pop pointer 0
 // call Screen.drawRectangle 4
 // expressionList
-push argument 0
-pop pointer 0
 push this 0
-push argument 0
-pop pointer 0
 push this 1
-push argument 0
-pop pointer 0
 push this 0
-// 5
 push constant 5
 add
 
-push argument 0
-pop pointer 0
 push this 1
-// 5
 push constant 5
 add
 
-call Screen.drawRectangle
+call Screen.drawRectangle 4
 
 pop temp 0
 push constant 0
@@ -142,9 +129,7 @@ return
 
 
 
-function Ball.getLeft
-push argument 0
-pop pointer 0
+function Ball.getLeft 0
 push argument 0
 pop pointer 0
 push this 0
@@ -152,13 +137,10 @@ return
 
 
 
-function Ball.getRight
-push argument 0
-pop pointer 0
+function Ball.getRight 0
 push argument 0
 pop pointer 0
 push this 0
-// 5
 push constant 5
 add
 
@@ -166,138 +148,119 @@ return
 
 
 
-function Ball.setDestination
+function Ball.setDestination 3
 push argument 0
 pop pointer 0
 // let lengthx statement
-push argument 0
-push argument 0
-pop pointer 0
+push argument 1
 push this 0
 sub
 
-push argument 0
-pop pointer 0
 pop this 2
 
 // let lengthy statement
-push argument 1
-push argument 0
-pop pointer 0
+push argument 2
 push this 1
 sub
 
-push argument 0
-pop pointer 0
 pop this 3
 
 // let dx statement
 // call Math.abs 1
 // expressionList
-push argument 0
-pop pointer 0
 push this 2
-call Math.abs
+call Math.abs 1
 
-pop var 0
+pop local 0
 
 // let dy statement
 // call Math.abs 1
 // expressionList
-push argument 0
-pop pointer 0
 push this 3
-call Math.abs
+call Math.abs 1
 
-pop var 1
+pop local 1
 
 // let invert statement
-push var 0
-push var 1
+push local 0
+push local 1
 lt
 
-push argument 0
-pop pointer 0
 pop this 7
 
 // if
-push argument 0
-pop pointer 0
 push this 7
 not
-if-goto IF_undefined
+if-goto ELSE_2457
 // let temp statement
-push var 0
-pop var 2
+push local 0
+pop local 2
 
 // let dx statement
-push var 1
-pop var 0
+push local 1
+pop local 0
 
 // let dy statement
-push var 2
-pop var 1
+push local 2
+pop local 1
 
 // let positivex statement
-push argument 0
-pop pointer 0
 push this 1
-push argument 1
+push argument 2
 lt
 
-push argument 0
-pop pointer 0
 pop this 8
 
 // let positivey statement
-push argument 0
-pop pointer 0
 push this 0
-push argument 0
+push argument 1
 lt
 
-push argument 0
-pop pointer 0
 pop this 9
 
-goto ELSE_undefined
-label IF_undefined
-label ELSE_undefined
+goto IF_END_2457
+label ELSE_2457
+// let positivex statement
+push this 0
+push argument 1
+lt
+
+pop this 8
+
+// let positivey statement
+push this 1
+push argument 2
+lt
+
+pop this 9
+
+label IF_END_2457
 
 // let d statement
-// 2
 push constant 2
-push var 1
-Math.multiply
+push local 1
+call Math.multiply 2
 
-push var 0
+push local 0
 sub
 
-push argument 0
-pop pointer 0
 pop this 4
 
 // let straightD statement
-// 2
 push constant 2
-push var 1
-Math.multiply
+push local 1
+call Math.multiply 2
 
-push argument 0
-pop pointer 0
 pop this 5
 
 // let diagonalD statement
-// 2
 push constant 2
-push var 1
-push var 0
+push local 1
+push local 0
 sub
 
-Math.multiply
+call Math.multiply 2
 
-push argument 0
-pop pointer 0
 pop this 6
 
 push constant 0
@@ -305,300 +268,443 @@ return
 
 
 
-function Ball.move
+function Ball.move 0
 push argument 0
 pop pointer 0
-// call hide 0
-push argument 0
+// call Ball.hide 1
+push pointer 0
 // expressionList
-call hide
+call Ball.hide 1
 
 pop temp 0
 // if
-push argument 0
-pop pointer 0
 push this 4
-// 0
 push constant 0
 lt
 
 not
-if-goto IF_undefined
+if-goto ELSE_3207
 // let d statement
-push argument 0
-pop pointer 0
 push this 4
-push argument 0
-pop pointer 0
 push this 5
 add
 
-push argument 0
-pop pointer 0
 pop this 4
 
-goto ELSE_undefined
-label IF_undefined
-label ELSE_undefined
+goto IF_END_3207
+label ELSE_3207
+// let d statement
+push this 4
+push this 6
+add
+
+pop this 4
 
 // if
-push argument 0
-pop pointer 0
-push this 8
+push this 9
 not
-if-goto IF_undefined
+if-goto ELSE_3308
 // if
-push argument 0
-pop pointer 0
 push this 7
 not
-if-goto IF_undefined
-// let y statement
-push argument 0
-pop pointer 0
-push this 1
-// 4
+if-goto ELSE_3340
+// let x statement
+push this 0
 push constant 4
 add
 
-push argument 0
-pop pointer 0
-pop this 1
-
-goto ELSE_undefined
-label IF_undefined
-label ELSE_undefined
-
-goto ELSE_undefined
-label IF_undefined
-label ELSE_undefined
-
-// if
-push argument 0
-pop pointer 0
-push this 0
-push argument 0
-pop pointer 0
-push this 10
-gt
-
-not
-not
-if-goto IF_undefined
-// let wall statement
-// 1
-push constant 1
-push argument 0
-pop pointer 0
-pop this 14
-
-// let x statement
-push argument 0
-pop pointer 0
-push this 10
-push argument 0
-pop pointer 0
 pop this 0
 
-goto ELSE_undefined
-label IF_undefined
-label ELSE_undefined
-
-// if
-push argument 0
-pop pointer 0
-push this 0
-push argument 0
-pop pointer 0
-push this 11
-lt
-
-not
-not
-if-goto IF_undefined
-// let wall statement
-// 2
-push constant 2
-push argument 0
-pop pointer 0
-pop this 14
-
-// let x statement
-push argument 0
-pop pointer 0
-push this 11
-push argument 0
-pop pointer 0
-pop this 0
-
-goto ELSE_undefined
-label IF_undefined
-label ELSE_undefined
-
-// if
-push argument 0
-pop pointer 0
-push this 1
-push argument 0
-pop pointer 0
-push this 12
-gt
-
-not
-not
-if-goto IF_undefined
-// let wall statement
-// 3
-push constant 3
-push argument 0
-pop pointer 0
-pop this 14
-
+goto IF_END_3340
+label ELSE_3340
 // let y statement
-push argument 0
-pop pointer 0
-push this 12
-push argument 0
-pop pointer 0
-pop this 1
-
-goto ELSE_undefined
-label IF_undefined
-label ELSE_undefined
-
-// if
-push argument 0
-pop pointer 0
 push this 1
-push argument 0
-pop pointer 0
-push this 13
-lt
-
-not
-not
-if-goto IF_undefined
-// let wall statement
-// 4
 push constant 4
-push argument 0
-pop pointer 0
+add
+
+pop this 1
+
+label IF_END_3340
+
+goto IF_END_3308
+label ELSE_3308
+// if
+push this 7
+not
+if-goto ELSE_3464
+// let x statement
+push this 0
+push constant 4
+sub
+
+pop this 0
+
+goto IF_END_3464
+label ELSE_3464
+// let y statement
+push this 1
+push constant 4
+sub
+
+pop this 1
+
+label IF_END_3464
+
+label IF_END_3308
+
+label IF_END_3207
+
+// if
+push this 8
+not
+if-goto ELSE_3576
+// if
+push this 7
+not
+if-goto ELSE_3604
+// let y statement
+push this 1
+push constant 4
+add
+
+pop this 1
+
+goto IF_END_3604
+label ELSE_3604
+// let x statement
+push this 0
+push constant 4
+add
+
+pop this 0
+
+label IF_END_3604
+
+goto IF_END_3576
+label ELSE_3576
+// if
+push this 7
+not
+if-goto ELSE_3706
+// let y statement
+push this 1
+push constant 4
+sub
+
+pop this 1
+
+goto IF_END_3706
+label ELSE_3706
+// let x statement
+push this 0
+push constant 4
+sub
+
+pop this 0
+
+label IF_END_3706
+
+label IF_END_3576
+
+// if
+push this 0
+push this 10
+gt
+
+not
+not
+if-goto ELSE_3795
+// let wall statement
+push constant 1
+pop this 14
+
+// let x statement
+push this 10
+pop this 0
+
+goto IF_END_3795
+label ELSE_3795
+label IF_END_3795
+
+// if
+push this 0
+push this 11
+lt
+
+not
+not
+if-goto ELSE_3890
+// let wall statement
+push constant 2
+pop this 14
+
+// let x statement
+push this 11
+pop this 0
+
+goto IF_END_3890
+label ELSE_3890
+label IF_END_3890
+
+// if
+push this 1
+push this 12
+gt
+
+not
+not
+if-goto ELSE_3988
+// let wall statement
+push constant 3
 pop this 14
 
 // let y statement
-push argument 0
-pop pointer 0
-push this 13
-push argument 0
-pop pointer 0
+push this 12
 pop this 1
 
-goto ELSE_undefined
-label IF_undefined
-label ELSE_undefined
+goto IF_END_3988
+label ELSE_3988
+label IF_END_3988
 
-// call show 0
-push argument 0
+// if
+push this 1
+push this 13
+lt
+
+not
+not
+if-goto ELSE_4088
+// let wall statement
+push constant 4
+pop this 14
+
+// let y statement
+push this 13
+pop this 1
+
+goto IF_END_4088
+label ELSE_4088
+label IF_END_4088
+
+// call Ball.show 1
+push pointer 0
 // expressionList
-call show
+call Ball.show 1
 
 pop temp 0
-push argument 0
-pop pointer 0
 push this 14
 return
 
 
 
-function Ball.bounce
+function Ball.bounce 5
 push argument 0
 pop pointer 0
 // let divLengthx statement
-push argument 0
-pop pointer 0
 push this 2
-// 10
 push constant 10
-Math.divide
+call Math.divide 2
 
-pop var 2
+pop local 2
 
 // let divLengthy statement
-push argument 0
-pop pointer 0
 push this 3
-// 10
 push constant 10
-Math.divide
+call Math.divide 2
 
-pop var 3
+pop local 3
 
 // if
-push argument 0
-// 0
+push argument 1
 push constant 0
 eq
 
 not
-if-goto IF_undefined
+if-goto ELSE_4709
 // let factor statement
-// 10
 push constant 10
-pop var 4
+pop local 4
 
-goto ELSE_undefined
-label IF_undefined
-label ELSE_undefined
+goto IF_END_4709
+label ELSE_4709
+// if
+push this 2
+push constant 0
+lt
+
+not
+push argument 1
+push constant 1
+eq
+
+and
+
+push this 2
+push constant 0
+lt
+
+push argument 1
+push constant 1
+neg
+eq
+
+and
+
+or
+
+not
+if-goto ELSE_4776
+// let factor statement
+push constant 20
+pop local 4
+
+goto IF_END_4776
+label ELSE_4776
+// let factor statement
+push constant 5
+pop local 4
+
+label IF_END_4776
+
+label IF_END_4709
 
 // if
-push argument 0
-pop pointer 0
 push this 14
-// 1
 push constant 1
 eq
 
 not
-if-goto IF_undefined
+if-goto ELSE_5064
 // let newx statement
-// 506
 push constant 506
-pop var 0
+pop local 0
 
 // let newy statement
-push var 3
-// 50
+push local 3
 push constant 50
 neg
-Math.multiply
+call Math.multiply 2
 
-push var 2
-Math.divide
+push local 2
+call Math.divide 2
 
-pop var 1
+pop local 1
 
 // let newy statement
-push argument 0
-pop pointer 0
 push this 1
-push var 1
-push var 4
-Math.multiply
+push local 1
+push local 4
+call Math.multiply 2
 
 add
 
-pop var 1
+pop local 1
 
-goto ELSE_undefined
-label IF_undefined
-label ELSE_undefined
+goto IF_END_5064
+label ELSE_5064
+// if
+push this 14
+push constant 2
+eq
 
-// call setDestination 2
-push argument 0
+not
+if-goto ELSE_5239
+// let newx statement
+push constant 0
+pop local 0
+
+// let newy statement
+push local 3
+push constant 50
+call Math.multiply 2
+
+push local 2
+call Math.divide 2
+
+pop local 1
+
+// let newy statement
+push this 1
+push local 1
+push local 4
+call Math.multiply 2
+
+add
+
+pop local 1
+
+goto IF_END_5239
+label ELSE_5239
+// if
+push this 14
+push constant 3
+eq
+
+not
+if-goto ELSE_5437
+// let newy statement
+push constant 250
+pop local 1
+
+// let newx statement
+push local 2
+push constant 25
+neg
+call Math.multiply 2
+
+push local 3
+call Math.divide 2
+
+pop local 0
+
+// let newx statement
+push this 0
+push local 0
+push local 4
+call Math.multiply 2
+
+add
+
+pop local 0
+
+goto IF_END_5437
+label ELSE_5437
+// let newy statement
+push constant 0
+pop local 1
+
+// let newx statement
+push local 2
+push constant 25
+call Math.multiply 2
+
+push local 3
+call Math.divide 2
+
+pop local 0
+
+// let newx statement
+push this 0
+push local 0
+push local 4
+call Math.multiply 2
+
+add
+
+pop local 0
+
+label IF_END_5437
+
+label IF_END_5239
+
+label IF_END_5064
+
+// call Ball.setDestination 3
+push pointer 0
 // expressionList
-push var 0
-push var 1
-call setDestination
+push local 0
+push local 1
+call Ball.setDestination 3
 
 pop temp 0
 push constant 0

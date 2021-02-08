@@ -1,29 +1,25 @@
-function Main.main
+function Main.main 1
 // call Main.fillMemory 3
 // expressionList
-// 8001
 push constant 8001
-// 16
 push constant 16
-// 1
 push constant 1
 neg
-call Main.fillMemory
+call Main.fillMemory 3
 
 pop temp 0
 // let value statement
 // call Memory.peek 1
 // expressionList
-// 8000
 push constant 8000
-call Memory.peek
+call Memory.peek 1
 
-pop var 0
+pop local 0
 
 // call Main.convert 1
 // expressionList
-push var 0
-call Main.convert
+push local 0
+call Main.convert 1
 
 pop temp 0
 push constant 0
@@ -31,122 +27,135 @@ return
 
 
 
-function Main.convert
+function Main.convert 3
 // let loop statement
 // true
 push constant 1
 neg
-pop var 2
+pop local 2
 
 // while
-label WHILE_undefined
-push var 2
+label WHILE_1535
+push local 2
 not
-if-goto WHILE_BREAK_undefined
+if-goto WHILE_END_1535
 // let position statement
-push var 1
-// 1
+push local 1
 push constant 1
 add
 
-pop var 1
+pop local 1
 
 // let mask statement
 // call Main.nextMask 1
 // expressionList
-push var 0
-call Main.nextMask
+push local 0
+call Main.nextMask 1
 
-pop var 0
+pop local 0
 
 // if
-push var 1
-// 16
+push local 1
 push constant 16
 gt
 
 not
 not
-if-goto IF_undefined
+if-goto ELSE_1637
 // if
 push argument 0
-push var 0
+push local 0
 and
 
-// 0
 push constant 0
 eq
 
 not
 not
-if-goto IF_undefined
+if-goto ELSE_1678
 // call Memory.poke 2
 // expressionList
-// 8000
 push constant 8000
-push var 1
+push local 1
 add
 
-// 1
 push constant 1
-call Memory.poke
+call Memory.poke 2
 
 pop temp 0
-goto ELSE_undefined
-label IF_undefined
-label ELSE_undefined
+goto IF_END_1678
+label ELSE_1678
+// call Memory.poke 2
+// expressionList
+push constant 8000
+push local 1
+add
 
-goto ELSE_undefined
-label IF_undefined
-label ELSE_undefined
+push constant 0
+call Memory.poke 2
 
-goto WHILE_undefined
-label WHILE_BREAK_undefined
+pop temp 0
+label IF_END_1678
+
+goto IF_END_1637
+label ELSE_1637
+// let loop statement
+// false
+push constant 0
+pop local 2
+
+label IF_END_1637
+
+goto WHILE_1535
+label WHILE_END_1535
 
 push constant 0
 return
 
 
 
-function Main.nextMask
+function Main.nextMask 0
 // if
 push argument 0
-// 0
 push constant 0
 eq
 
 not
-if-goto IF_undefined
-// 1
+if-goto ELSE_2122
 push constant 1
 return
 
 
-goto ELSE_undefined
-label IF_undefined
-label ELSE_undefined
+goto IF_END_2122
+label ELSE_2122
+push argument 0
+push constant 2
+call Math.multiply 2
+
+return
 
 
-function Main.fillMemory
+label IF_END_2122
+
+
+function Main.fillMemory 0
 // while
-label WHILE_undefined
+label WHILE_2409
 push argument 1
-// 0
 push constant 0
 gt
 
 not
-if-goto WHILE_BREAK_undefined
+if-goto WHILE_END_2409
 // call Memory.poke 2
 // expressionList
 push argument 0
 push argument 2
-call Memory.poke
+call Memory.poke 2
 
 pop temp 0
 // let length statement
 push argument 1
-// 1
 push constant 1
 sub
 
@@ -154,14 +163,13 @@ pop argument 1
 
 // let startAddress statement
 push argument 0
-// 1
 push constant 1
 add
 
 pop argument 0
 
-goto WHILE_undefined
-label WHILE_BREAK_undefined
+goto WHILE_2409
+label WHILE_END_2409
 
 push constant 0
 return

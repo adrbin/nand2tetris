@@ -396,7 +396,7 @@ function parseIfStatement(tokens) {
       return;
     }
 
-    elseTokens = [leftBracket, statements, rightBracket];
+    elseTokens = [token, leftBracket, statements, rightBracket];
   }
 
   return {
@@ -460,6 +460,7 @@ function genericParseStatement(tokens, keyword, resultType) {
       rightParenthesis,
       leftBracket,
       statements,
+      rightBracket,
     ],
     length: tokenIndex,
   };

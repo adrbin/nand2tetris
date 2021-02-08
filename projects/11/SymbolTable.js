@@ -29,6 +29,18 @@ export class SymbolTable {
       table = table.previousTable;
     }
   }
+
+  getWithKind(kind) {
+    const symbolsWithKind = [...this.variables.values()].filter(
+      x => x.kind === kind,
+    );
+
+    if (this.previousTable) {
+      symbolsWithKind.push(...this.previousTable.getWithKind(kind));
+    }
+
+    return symbolsWithKind;
+  }
 }
 
 // export class SymbolTable {

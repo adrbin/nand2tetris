@@ -1,35 +1,30 @@
-function Main.main
+function Main.main 3
 // let a statement
 // call Array.new 1
 // expressionList
-// 10
 push constant 10
-call Array.new
+call Array.new 1
 
 pop local 0
 
 // let b statement
 // call Array.new 1
 // expressionList
-// 5
 push constant 5
-call Array.new
+call Array.new 1
 
 pop local 1
 
 // let c statement
 // call Array.new 1
 // expressionList
-// 1
 push constant 1
-call Array.new
+call Array.new 1
 
 pop local 2
 
 // let a statement with an array
-// 2
 push constant 2
-// 3
 push constant 3
 push local 0
 add
@@ -37,9 +32,7 @@ pop pointer 1
 pop that 0
 
 // let a statement with an array
-// 8
 push constant 8
-// 4
 push constant 4
 push local 0
 add
@@ -47,9 +40,7 @@ pop pointer 1
 pop that 0
 
 // let a statement with an array
-// 4
 push constant 4
-// 5
 push constant 5
 push local 0
 add
@@ -58,18 +49,15 @@ pop that 0
 
 // let b statement with an array
 push local 0
-// 3
 push constant 3
 add
 pop pointer 1
 push that 0
 
-// 3
 push constant 3
 add
 
 push local 0
-// 3
 push constant 3
 add
 pop pointer 1
@@ -83,7 +71,6 @@ pop that 0
 // let a statement with an array
 push local 0
 push local 0
-// 5
 push constant 5
 add
 pop pointer 1
@@ -94,10 +81,8 @@ pop pointer 1
 push that 0
 
 push local 1
-// 7
 push constant 7
 push local 0
-// 3
 push constant 3
 add
 pop pointer 1
@@ -107,13 +92,11 @@ sub
 
 // call Main.double 1
 // expressionList
-// 2
 push constant 2
-call Main.double
+call Main.double 1
 
 sub
 
-// 1
 push constant 1
 add
 
@@ -121,11 +104,10 @@ add
 pop pointer 1
 push that 0
 
-Math.multiply
+call Math.multiply 2
 
 push local 1
 push local 0
-// 3
 push constant 3
 add
 pop pointer 1
@@ -143,7 +125,6 @@ pop that 0
 // let c statement with an array
 // null
 push constant 0
-// 0
 push constant 0
 push local 2
 add
@@ -152,7 +133,6 @@ pop that 0
 
 // let c statement
 push local 2
-// 0
 push constant 0
 add
 pop pointer 1
@@ -163,7 +143,8 @@ pop local 2
 // call Output.printString 1
 // expressionList
 // "Test 1: expected result: 5; actual result: "
-call String.new 0
+push constant 43
+call String.new 1
 pop temp 0
 push temp 0
 push constant 84
@@ -295,30 +276,30 @@ push temp 0
 push constant 32
 call String.appendChar 2
 
-call Output.printString
+call Output.printString 1
 
 pop temp 0
 // call Output.printInt 1
 // expressionList
 push local 1
-// 2
 push constant 2
 add
 pop pointer 1
 push that 0
 
-call Output.printInt
+call Output.printInt 1
 
 pop temp 0
 // call Output.println 0
 // expressionList
-call Output.println
+call Output.println 0
 
 pop temp 0
 // call Output.printString 1
 // expressionList
 // "Test 2: expected result: 40; actual result: "
-call String.new 0
+push constant 44
+call String.new 1
 pop temp 0
 push temp 0
 push constant 84
@@ -453,30 +434,30 @@ push temp 0
 push constant 32
 call String.appendChar 2
 
-call Output.printString
+call Output.printString 1
 
 pop temp 0
 // call Output.printInt 1
 // expressionList
 push local 0
-// 5
 push constant 5
 add
 pop pointer 1
 push that 0
 
-call Output.printInt
+call Output.printInt 1
 
 pop temp 0
 // call Output.println 0
 // expressionList
-call Output.println
+call Output.println 0
 
 pop temp 0
 // call Output.printString 1
 // expressionList
 // "Test 3: expected result: 0; actual result: "
-call String.new 0
+push constant 43
+call String.new 1
 pop temp 0
 push temp 0
 push constant 84
@@ -608,18 +589,18 @@ push temp 0
 push constant 32
 call String.appendChar 2
 
-call Output.printString
+call Output.printString 1
 
 pop temp 0
 // call Output.printInt 1
 // expressionList
 push local 2
-call Output.printInt
+call Output.printInt 1
 
 pop temp 0
 // call Output.println 0
 // expressionList
-call Output.println
+call Output.println 0
 
 pop temp 0
 // let c statement
@@ -634,18 +615,16 @@ push constant 0
 eq
 
 not
-if-goto IF_undefined
+if-goto ELSE_1301
 // call Main.fill 2
 // expressionList
 push local 0
-// 10
 push constant 10
-call Main.fill
+call Main.fill 2
 
 pop temp 0
 // let c statement
 push local 0
-// 3
 push constant 3
 add
 pop pointer 1
@@ -654,9 +633,7 @@ push that 0
 pop local 2
 
 // let c statement with an array
-// 33
 push constant 33
-// 1
 push constant 1
 push local 2
 add
@@ -665,7 +642,6 @@ pop that 0
 
 // let c statement
 push local 0
-// 7
 push constant 7
 add
 pop pointer 1
@@ -674,9 +650,7 @@ push that 0
 pop local 2
 
 // let c statement with an array
-// 77
 push constant 77
-// 1
 push constant 1
 push local 2
 add
@@ -685,7 +659,6 @@ pop that 0
 
 // let b statement
 push local 0
-// 3
 push constant 3
 add
 pop pointer 1
@@ -695,14 +668,12 @@ pop local 1
 
 // let b statement with an array
 push local 1
-// 1
 push constant 1
 add
 pop pointer 1
 push that 0
 
 push local 2
-// 1
 push constant 1
 add
 pop pointer 1
@@ -710,21 +681,21 @@ push that 0
 
 add
 
-// 1
 push constant 1
 push local 1
 add
 pop pointer 1
 pop that 0
 
-goto ELSE_undefined
-label IF_undefined
-label ELSE_undefined
+goto IF_END_1301
+label ELSE_1301
+label IF_END_1301
 
 // call Output.printString 1
 // expressionList
 // "Test 4: expected result: 77; actual result: "
-call String.new 0
+push constant 44
+call String.new 1
 pop temp 0
 push temp 0
 push constant 84
@@ -859,30 +830,30 @@ push temp 0
 push constant 32
 call String.appendChar 2
 
-call Output.printString
+call Output.printString 1
 
 pop temp 0
 // call Output.printInt 1
 // expressionList
 push local 2
-// 1
 push constant 1
 add
 pop pointer 1
 push that 0
 
-call Output.printInt
+call Output.printInt 1
 
 pop temp 0
 // call Output.println 0
 // expressionList
-call Output.println
+call Output.println 0
 
 pop temp 0
 // call Output.printString 1
 // expressionList
 // "Test 5: expected result: 110; actual result: "
-call String.new 0
+push constant 45
+call String.new 1
 pop temp 0
 push temp 0
 push constant 84
@@ -1020,24 +991,23 @@ push temp 0
 push constant 32
 call String.appendChar 2
 
-call Output.printString
+call Output.printString 1
 
 pop temp 0
 // call Output.printInt 1
 // expressionList
 push local 1
-// 1
 push constant 1
 add
 pop pointer 1
 push that 0
 
-call Output.printInt
+call Output.printInt 1
 
 pop temp 0
 // call Output.println 0
 // expressionList
-call Output.println
+call Output.println 0
 
 pop temp 0
 push constant 0
@@ -1045,29 +1015,26 @@ return
 
 
 
-function Main.double
+function Main.double 0
 push argument 0
-// 2
 push constant 2
-Math.multiply
+call Math.multiply 2
 
 return
 
 
 
-function Main.fill
+function Main.fill 0
 // while
-label WHILE_undefined
+label WHILE_2008
 push argument 1
-// 0
 push constant 0
 gt
 
 not
-if-goto WHILE_BREAK_undefined
+if-goto WHILE_END_2008
 // let size statement
 push argument 1
-// 1
 push constant 1
 sub
 
@@ -1076,9 +1043,8 @@ pop argument 1
 // let a statement with an array
 // call Array.new 1
 // expressionList
-// 3
 push constant 3
-call Array.new
+call Array.new 1
 
 push argument 1
 push argument 0
@@ -1086,8 +1052,8 @@ add
 pop pointer 1
 pop that 0
 
-goto WHILE_undefined
-label WHILE_BREAK_undefined
+goto WHILE_2008
+label WHILE_END_2008
 
 push constant 0
 return

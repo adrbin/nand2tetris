@@ -1,86 +1,69 @@
-function PongGame.new
-push 0
+function PongGame.new 0
+push constant 7
 call Memory.alloc 1
 pop pointer 0
 // call Screen.clearScreen 0
 // expressionList
-call Screen.clearScreen
+call Screen.clearScreen 0
 
 pop temp 0
 // let batWidth statement
-// 50
 push constant 50
 pop this 6
 
 // let bat statement
 // call Bat.new 4
 // expressionList
-// 230
 push constant 230
-// 229
 push constant 229
 push this 6
-// 7
 push constant 7
-call Bat.new
+call Bat.new 4
 
 pop this 0
 
 // let ball statement
 // call Ball.new 6
 // expressionList
-// 253
 push constant 253
-// 222
 push constant 222
-// 0
 push constant 0
-// 511
 push constant 511
-// 0
 push constant 0
-// 229
 push constant 229
-call Ball.new
+call Ball.new 6
 
 pop this 1
 
 // call Ball.setDestination 3
 push this 1
 // expressionList
-// 400
 push constant 400
-// 0
 push constant 0
-call Ball.setDestination
+call Ball.setDestination 3
 
 pop temp 0
 // call Screen.drawRectangle 4
 // expressionList
-// 0
 push constant 0
-// 238
 push constant 238
-// 511
 push constant 511
-// 240
 push constant 240
-call Screen.drawRectangle
+call Screen.drawRectangle 4
 
 pop temp 0
 // call Output.moveCursor 2
 // expressionList
-// 22
 push constant 22
-// 0
 push constant 0
-call Output.moveCursor
+call Output.moveCursor 2
 
 pop temp 0
 // call Output.printString 1
 // expressionList
 // "Score: 0"
-call String.new 0
+push constant 8
+call String.new 1
 pop temp 0
 push temp 0
 push constant 83
@@ -107,7 +90,7 @@ push temp 0
 push constant 48
 call String.appendChar 2
 
-call Output.printString
+call Output.printString 1
 
 pop temp 0
 // let exit statement
@@ -116,17 +99,14 @@ push constant 0
 pop this 3
 
 // let score statement
-// 0
 push constant 0
 pop this 4
 
 // let wall statement
-// 0
 push constant 0
 pop this 2
 
 // let lastWall statement
-// 0
 push constant 0
 pop this 5
 
@@ -136,30 +116,26 @@ return
 
 
 
-function PongGame.dispose
+function PongGame.dispose 0
 push argument 0
 pop pointer 0
 // call Bat.dispose 1
-push argument 0
-pop pointer 0
 push this 0
 // expressionList
-call Bat.dispose
+call Bat.dispose 1
 
 pop temp 0
 // call Ball.dispose 1
-push argument 0
-pop pointer 0
 push this 1
 // expressionList
-call Ball.dispose
+call Ball.dispose 1
 
 pop temp 0
 // call Memory.deAlloc 1
 // expressionList
 // this
-push argument 0
-call Memory.deAlloc
+push pointer 0
+call Memory.deAlloc 1
 
 pop temp 0
 push constant 0
@@ -167,11 +143,11 @@ return
 
 
 
-function PongGame.newInstance
+function PongGame.newInstance 0
 // let instance statement
 // call PongGame.new 0
 // expressionList
-call PongGame.new
+call PongGame.new 0
 
 pop static 0
 
@@ -180,160 +156,174 @@ return
 
 
 
-function PongGame.getInstance
+function PongGame.getInstance 0
 push static 0
 return
 
 
 
-function PongGame.run
+function PongGame.run 1
 push argument 0
 pop pointer 0
 // while
-label WHILE_undefined
-push argument 0
-pop pointer 0
+label WHILE_1942
 push this 3
 not
 not
-if-goto WHILE_BREAK_undefined
+if-goto WHILE_END_1942
 // while
-label WHILE_undefined
-push var 0
-// 0
+label WHILE_2016
+push local 0
 push constant 0
 eq
 
-push argument 0
-pop pointer 0
 push this 3
 not
 and
 
 not
-if-goto WHILE_BREAK_undefined
+if-goto WHILE_END_2016
 // let key statement
 // call Keyboard.keyPressed 0
 // expressionList
-call Keyboard.keyPressed
+call Keyboard.keyPressed 0
 
-pop var 0
+pop local 0
 
 // call Bat.move 1
-push argument 0
-pop pointer 0
 push this 0
 // expressionList
-call Bat.move
+call Bat.move 1
 
 pop temp 0
-// call moveBall 0
-push argument 0
+// call PongGame.moveBall 1
+push pointer 0
 // expressionList
-call moveBall
+call PongGame.moveBall 1
 
 pop temp 0
 // call Sys.wait 1
 // expressionList
-// 50
 push constant 50
-call Sys.wait
+call Sys.wait 1
 
 pop temp 0
-goto WHILE_undefined
-label WHILE_BREAK_undefined
+goto WHILE_2016
+label WHILE_END_2016
 
 // if
-push var 0
-// 130
+push local 0
 push constant 130
 eq
 
 not
-if-goto IF_undefined
+if-goto ELSE_2222
 // call Bat.setDirection 2
-push argument 0
-pop pointer 0
 push this 0
 // expressionList
-// 1
 push constant 1
-call Bat.setDirection
+call Bat.setDirection 2
 
 pop temp 0
-goto ELSE_undefined
-label IF_undefined
-label ELSE_undefined
+goto IF_END_2222
+label ELSE_2222
+// if
+push local 0
+push constant 132
+eq
+
+not
+if-goto ELSE_2297
+// call Bat.setDirection 2
+push this 0
+// expressionList
+push constant 2
+call Bat.setDirection 2
+
+pop temp 0
+goto IF_END_2297
+label ELSE_2297
+// if
+push local 0
+push constant 140
+eq
+
+not
+if-goto ELSE_2372
+// let exit statement
+// true
+push constant 1
+neg
+pop this 3
+
+goto IF_END_2372
+label ELSE_2372
+label IF_END_2372
+
+label IF_END_2297
+
+label IF_END_2222
 
 // while
-label WHILE_undefined
-push var 0
-// 0
+label WHILE_2509
+push local 0
 push constant 0
 eq
 
 not
-push argument 0
-pop pointer 0
 push this 3
 not
 and
 
 not
-if-goto WHILE_BREAK_undefined
+if-goto WHILE_END_2509
 // let key statement
 // call Keyboard.keyPressed 0
 // expressionList
-call Keyboard.keyPressed
+call Keyboard.keyPressed 0
 
-pop var 0
+pop local 0
 
 // call Bat.move 1
-push argument 0
-pop pointer 0
 push this 0
 // expressionList
-call Bat.move
+call Bat.move 1
 
 pop temp 0
-// call moveBall 0
-push argument 0
+// call PongGame.moveBall 1
+push pointer 0
 // expressionList
-call moveBall
+call PongGame.moveBall 1
 
 pop temp 0
 // call Sys.wait 1
 // expressionList
-// 50
 push constant 50
-call Sys.wait
+call Sys.wait 1
 
 pop temp 0
-goto WHILE_undefined
-label WHILE_BREAK_undefined
+goto WHILE_2509
+label WHILE_END_2509
 
-goto WHILE_undefined
-label WHILE_BREAK_undefined
+goto WHILE_1942
+label WHILE_END_1942
 
 // if
-push argument 0
-pop pointer 0
 push this 3
 not
-if-goto IF_undefined
+if-goto ELSE_2729
 // call Output.moveCursor 2
 // expressionList
-// 10
 push constant 10
-// 27
 push constant 27
-call Output.moveCursor
+call Output.moveCursor 2
 
 pop temp 0
 // call Output.printString 1
 // expressionList
 // "Game Over"
-call String.new 0
+push constant 9
+call String.new 1
 pop temp 0
 push temp 0
 push constant 71
@@ -363,46 +353,35 @@ push temp 0
 push constant 114
 call String.appendChar 2
 
-call Output.printString
+call Output.printString 1
 
 pop temp 0
-goto ELSE_undefined
-label IF_undefined
-label ELSE_undefined
+goto IF_END_2729
+label ELSE_2729
+label IF_END_2729
 
 push constant 0
 return
 
 
 
-function PongGame.moveBall
+function PongGame.moveBall 5
 push argument 0
 pop pointer 0
 // let wall statement
 // call Ball.move 1
-push argument 0
-pop pointer 0
 push this 1
 // expressionList
-call Ball.move
+call Ball.move 1
 
-push argument 0
-pop pointer 0
 pop this 2
 
 // if
-push argument 0
-pop pointer 0
 push this 2
-// 0
 push constant 0
 gt
 
-push argument 0
-pop pointer 0
 push this 2
-push argument 0
-pop pointer 0
 push this 5
 eq
 
@@ -410,185 +389,161 @@ not
 and
 
 not
-if-goto IF_undefined
+if-goto ELSE_3300
 // let lastWall statement
-push argument 0
-pop pointer 0
 push this 2
-push argument 0
-pop pointer 0
 pop this 5
 
 // let bouncingDirection statement
-// 0
 push constant 0
-pop var 0
+pop local 0
 
 // let batLeft statement
 // call Bat.getLeft 1
-push argument 0
-pop pointer 0
 push this 0
 // expressionList
-call Bat.getLeft
+call Bat.getLeft 1
 
-pop var 1
+pop local 1
 
 // let batRight statement
 // call Bat.getRight 1
-push argument 0
-pop pointer 0
 push this 0
 // expressionList
-call Bat.getRight
+call Bat.getRight 1
 
-pop var 2
+pop local 2
 
 // let ballLeft statement
 // call Ball.getLeft 1
-push argument 0
-pop pointer 0
 push this 1
 // expressionList
-call Ball.getLeft
+call Ball.getLeft 1
 
-pop var 3
+pop local 3
 
 // let ballRight statement
 // call Ball.getRight 1
-push argument 0
-pop pointer 0
 push this 1
 // expressionList
-call Ball.getRight
+call Ball.getRight 1
 
-pop var 4
+pop local 4
 
 // if
-push argument 0
-pop pointer 0
 push this 2
-// 4
 push constant 4
 eq
 
 not
-if-goto IF_undefined
+if-goto ELSE_3602
 // let exit statement
-push var 1
-push var 4
+push local 1
+push local 4
 gt
 
-push var 2
-push var 3
+push local 2
+push local 3
 lt
 
 or
 
-push argument 0
-pop pointer 0
 pop this 3
 
 // if
-push argument 0
-pop pointer 0
 push this 3
 not
 not
-if-goto IF_undefined
+if-goto ELSE_3710
 // if
-push var 4
-push var 1
-// 10
+push local 4
+push local 1
 push constant 10
 add
 
 lt
 
 not
-if-goto IF_undefined
+if-goto ELSE_3740
 // let bouncingDirection statement
-// 1
 push constant 1
 neg
-pop var 0
+pop local 0
 
-goto ELSE_undefined
-label IF_undefined
-label ELSE_undefined
+goto IF_END_3740
+label ELSE_3740
+// if
+push local 3
+push local 2
+push constant 10
+sub
+
+gt
+
+not
+if-goto ELSE_3853
+// let bouncingDirection statement
+push constant 1
+pop local 0
+
+goto IF_END_3853
+label ELSE_3853
+label IF_END_3853
+
+label IF_END_3740
 
 // let batWidth statement
-push argument 0
-pop pointer 0
 push this 6
-// 2
 push constant 2
 sub
 
-push argument 0
-pop pointer 0
 pop this 6
 
 // call Bat.setWidth 2
-push argument 0
-pop pointer 0
 push this 0
 // expressionList
-push argument 0
-pop pointer 0
 push this 6
-call Bat.setWidth
+call Bat.setWidth 2
 
 pop temp 0
 // let score statement
-push argument 0
-pop pointer 0
 push this 4
-// 1
 push constant 1
 add
 
-push argument 0
-pop pointer 0
 pop this 4
 
 // call Output.moveCursor 2
 // expressionList
-// 22
 push constant 22
-// 7
 push constant 7
-call Output.moveCursor
+call Output.moveCursor 2
 
 pop temp 0
 // call Output.printInt 1
 // expressionList
-push argument 0
-pop pointer 0
 push this 4
-call Output.printInt
+call Output.printInt 1
 
 pop temp 0
-goto ELSE_undefined
-label IF_undefined
-label ELSE_undefined
+goto IF_END_3710
+label ELSE_3710
+label IF_END_3710
 
-goto ELSE_undefined
-label IF_undefined
-label ELSE_undefined
+goto IF_END_3602
+label ELSE_3602
+label IF_END_3602
 
 // call Ball.bounce 2
-push argument 0
-pop pointer 0
 push this 1
 // expressionList
-push var 0
-call Ball.bounce
+push local 0
+call Ball.bounce 2
 
 pop temp 0
-goto ELSE_undefined
-label IF_undefined
-label ELSE_undefined
+goto IF_END_3300
+label ELSE_3300
+label IF_END_3300
 
 push constant 0
 return

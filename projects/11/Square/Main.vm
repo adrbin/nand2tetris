@@ -1,4 +1,4 @@
-function Main.main
+function Main.main 1
 // let game statement
 // call SquareGame.new 0
 // expressionList

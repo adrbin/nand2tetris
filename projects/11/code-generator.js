@@ -85,24 +85,31 @@ function generateGenericSubroutineCode(subroutineDec, context) {
 
   const subroutineName = subroutineDec.elements[2].value;
 
+  const subroutineBodyCode = generateSubroutineBodyCode(
+    subroutineBody,
+    context,
+  );
+
+  let localVariablesCount = context.symbolTable.getWithKind('var').length;
+
   return [
-    `function ${context.className}.${subroutineName}`,
+    `function ${context.className}.${subroutineName} ${localVariablesCount}`,
     ...context.bootstrapCode,
-    ...generateSubroutineBodyCode(subroutineBody, context),
+    ...subroutineBodyCode,
     '',
   ];
 }
 
 function generateConstructorCode(subroutineDec, context) {
+  const classVariablesCount = context.symbolTable.getWithKind('field').length;
   const bootstrapCode = [
-    `push ${context.symbolTable.variables.size}`,
+    `push constant ${classVariablesCount}`,
     'call Memory.alloc 1',
     'pop pointer 0',
   ];
   return generateGenericSubroutineCode(subroutineDec, {
     ...context,
     bootstrapCode,
-    isConstructor: true,
   });
 }
 
@@ -116,6 +123,7 @@ function generateFunctionCode(subroutineDec, context) {
 
 function generateMethodCode(subroutineDec, context) {
   const bootstrapCode = ['push argument 0', 'pop pointer 0'];
+  context.symbolTable.indexes.set('argument', 1);
   return generateGenericSubroutineCode(subroutineDec, {
     ...context,
     bootstrapCode,
@@ -198,12 +206,8 @@ function generateLetStatementCode(statement, context) {
 
 function getVarNameCode(varName, context, operation) {
   const symbol = context.symbolTable.get(varName);
-  let code = [];
-  if (symbol.kind === 'field' && !context.isConstructor) {
-    code = ['push argument 0', 'pop pointer 0'];
-  }
 
-  return [...code, `${operation} ${kindsMapping[symbol.kind]} ${symbol.index}`];
+  return [`${operation} ${kindsMapping[symbol.kind]} ${symbol.index}`];
 }
 
 function generateIfStatementCode(statement, context) {
@@ -216,7 +220,7 @@ function generateIfStatementCode(statement, context) {
   const ifStatementsCode = generateStatementsCode(ifStatements, context);
 
   const elseKeywordIndex = statement.elements.findIndex(
-    e => e.name === types.elseKeyword,
+    e => e.name === types.keyword && e.value === 'else',
   );
 
   let elseStatementsCode =
@@ -227,19 +231,21 @@ function generateIfStatementCode(statement, context) {
         )
       : [];
 
-  const ifLabel = `IF_${statement.index}`;
-  const elseLabel = `ELSE_${statement.index}`;
+  const index = statement.elements[0].index;
+
+  const ifEndLabel = `IF_END_${index}`;
+  const elseLabel = `ELSE_${index}`;
 
   return [
     '// if',
     ...expressionCode,
     'not',
-    `if-goto ${ifLabel}`,
+    `if-goto ${elseLabel}`,
     ...ifStatementsCode,
-    `goto ${elseLabel}`,
-    `label ${ifLabel}`,
-    ...elseStatementsCode,
+    `goto ${ifEndLabel}`,
     `label ${elseLabel}`,
+    ...elseStatementsCode,
+    `label ${ifEndLabel}`,
     '',
   ];
 }
@@ -251,18 +257,20 @@ function generateWhileStatementCode(statement, context) {
   const statements = statement.elements.find(e => e.name === types.statements);
   const statementsCode = generateStatementsCode(statements, context);
 
-  const whileLabel = `WHILE_${statement.index}`;
-  const whileBreakLabel = `WHILE_BREAK_${statement.index}`;
+  const index = statement.elements[0].index;
+
+  const whileLabel = `WHILE_${index}`;
+  const whileEndLabel = `WHILE_END_${index}`;
 
   return [
     '// while',
     `label ${whileLabel}`,
     ...expressionCode,
     'not',
-    `if-goto ${whileBreakLabel}`,
+    `if-goto ${whileEndLabel}`,
     ...statementsCode,
     `goto ${whileLabel}`,
-    `label ${whileBreakLabel}`,
+    `label ${whileEndLabel}`,
     '',
   ];
 }
@@ -314,7 +322,8 @@ function generateTermCode(term, context) {
   if (token.name === types.stringConstant) {
     return [
       `// "${token.value}"`,
-      'call String.new 0',
+      `push constant ${token.value.length}`,
+      'call String.new 1',
       'pop temp 0',
       ...token.value
         .split('')
@@ -333,10 +342,7 @@ function generateTermCode(term, context) {
     }
 
     if (token.value === 'this') {
-      if (context.isConstructor) {
-        return [`// ${token.value}`, 'push pointer 0'];
-      }
-      return [`// ${token.value}`, 'push argument 0'];
+      return [`// ${token.value}`, 'push pointer 0'];
     }
 
     if (['false', 'null'].includes(token.value)) {
@@ -389,7 +395,7 @@ function generateSubroutineCallCode(subroutineCall, context) {
   let functionName = '';
   let argumentsCount = 0;
   if (dot < 0) {
-    code = ['push argument 0'];
+    code = ['push pointer 0'];
     functionName = `${context.className}.${subroutineCall.elements[0].value}`;
     argumentsCount = 1;
   } else if (symbol) {

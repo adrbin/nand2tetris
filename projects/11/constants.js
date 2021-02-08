@@ -48,8 +48,8 @@ export const symbols = [
 export const opsMapping = {
   '+': 'add',
   '-': 'sub',
-  '*': 'Math.multiply',
-  '/': 'Math.divide',
+  '*': 'call Math.multiply 2',
+  '/': 'call Math.divide 2',
   '&': 'and',
   '|': 'or',
   '<': 'lt',

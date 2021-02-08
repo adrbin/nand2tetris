@@ -1,17 +1,14 @@
-function Main.main
-// call Output.printInt
+function Main.main 0
+// call Output.printInt 1
 // expressionList
-// 1
 push constant 1
-// 2
 push constant 2
-// 3
 push constant 3
-Math.multiply
+call Math.multiply 2
 
 add
 
-call Output.printInt
+call Output.printInt 1
 
 pop temp 0
 push constant 0
