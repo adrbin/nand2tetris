@@ -64,6 +64,7 @@ class Screen {
         let i = 0;
         while (i < 8192) {
             let screen[i] = 0;
+            let i = i + 1;
         }
 
         return;
@@ -139,7 +140,7 @@ class Screen {
                 let a = a + 16;
             }
 
-            while (a < x2) {
+            while (a < (x2 + 1)) {
                 do Screen.drawPixel(a, y1);
                 let a = a + 1;
                 // do Output.printInt(a);
