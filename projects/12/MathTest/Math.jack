@@ -78,10 +78,6 @@ class Math {
     function int mod(int x, int y) {
         var int div;
         let div = x / y;
-        do Output.printInt(div);
-        do Output.println();
-        do Output.printInt(div * y);
-        do Output.println();
 
         return x - (div * y);
     }

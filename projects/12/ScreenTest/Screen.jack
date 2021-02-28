@@ -11,10 +11,48 @@
  */
 class Screen {
     static boolean color;
+    // static Array leftMask, rightMask;
 
     /** Initializes the Screen. */
     function void init() {
         let color = true;
+
+        // let leftMask = Array.new(16);
+        // let leftMask[0] = 0;
+        // let leftMask[1] = -1;
+        // let leftMask[2] = -2;
+        // let leftMask[3] = -4;
+        // let leftMask[4] = -8;
+        // let leftMask[5] = -16;
+        // let leftMask[6] = -32;
+        // let leftMask[7] = -64;
+        // let leftMask[8] = -128;
+        // let leftMask[9] = -256;
+        // let leftMask[10] = -512;
+        // let leftMask[11] = -1024;
+        // let leftMask[12] = -2048;
+        // let leftMask[13] = -4096;
+        // let leftMask[14] = -8192;
+        // let leftMask[15] = -16384;
+
+        // let rightMask = Array.new(16);
+        // let leftMask[0] = 0;
+        // let leftMask[1] = 1;
+        // let leftMask[2] = 3;
+        // let leftMask[3] = 7;
+        // let leftMask[4] = 15;
+        // let leftMask[5] = 31;
+        // let leftMask[6] = 63;
+        // let leftMask[7] = 127;
+        // let leftMask[8] = 255;
+        // let leftMask[9] = 511;
+        // let leftMask[10] = 1023;
+        // let leftMask[11] = 2047;
+        // let leftMask[12] = 4095;
+        // let leftMask[13] = 8191;
+        // let leftMask[14] = 16383;
+        // let leftMask[15] = 32767;
+
         return;
     }
 
@@ -54,14 +92,7 @@ class Screen {
     /** Draws a line from pixel (x1,y1) to pixel (x2,y2), using the current color. */
     function void drawLine(int x1, int y1, int x2, int y2) {
         var int temp, dx, dy, stepX, stepY, a, b, diff, mod, address;
-        // if (x1 > x2) {
-        //     let temp = x1;
-        //     let x1 = x2;
-        //     let x2 = temp;
-        //     let temp = y1;
-        //     let y1 = y2;
-        //     let y2 = temp;
-        // }
+
         let dx = x2 - x1;
         let dy = y2 - y1;
 

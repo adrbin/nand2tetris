@@ -17,7 +17,7 @@
 class Output {
 
     // Character map for displaying characters
-    static Array charMaps;
+    static Array charMaps, screen;
     static int cursorX, cursorY;
 
     /** Initializes the screen, and locates the cursor at the screen's top-left. */
@@ -25,6 +25,7 @@ class Output {
         do Output.initMap();
         let cursorX = 0;
         let cursorY = 0;
+        let screen = 16384;
 
         return;
     }
@@ -218,10 +219,10 @@ class Output {
 
         let mod = cursorX & 1;
         let map = Output.getMap(c);
-        let address = 16384 + (((32 * 11) * cursorY) + (cursorX / 2));
+        let address = ((32 * 11) * cursorY) + (cursorX / 2);
         let i = 0;
         while (i < 11) {
-            let existing = Memory.peek(address);
+            let existing = screen[address];
             let value = map[i];
             if (mod = 1) {
                 let value = value * 256;
@@ -229,7 +230,7 @@ class Output {
             } else {
                 let existing = existing & 255;
             }
-            do Memory.poke(address, existing | value);
+            let screen[address] = existing | value;
             let address = address + 32;
             let i = i + 1;
         }
@@ -256,15 +257,15 @@ class Output {
     function void scroll() {
         var int i, value;
 
-        let i = 16384;
-        while (i < 24224) {
-            let value = Memory.peek(i + 352);
-            do Memory.poke(i, value);
+        let i = 0;
+        while (i < 7840) {
+            let value = screen[i + 352];
+            let screen[i] = value;
             let i = i + 1;
         }
 
-        while (i < 24576) {
-            do Memory.poke(i, 0);
+        while (i < 8192) {
+            let screen[i] = 0;
             let i = i + 1;
         }
 
