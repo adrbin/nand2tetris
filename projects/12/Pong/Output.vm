@@ -1585,16 +1585,14 @@ push constant 256
 call Math.multiply 2
 pop local 4
 push local 3
-push constant 1
-neg
 push constant 255
-and
 and
 pop local 3
 goto IF_END0
 label IF_FALSE0
 push local 3
-push constant 255
+push constant 256
+neg
 and
 pop local 3
 label IF_END0

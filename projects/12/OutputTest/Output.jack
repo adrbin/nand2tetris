@@ -226,9 +226,9 @@ class Output {
             let value = map[i];
             if (mod = 1) {
                 let value = value * 256;
-                let existing = existing & (-1 & 255);
-            } else {
                 let existing = existing & 255;
+            } else {
+                let existing = existing & -256;
             }
             let screen[address] = existing | value;
             let address = address + 32;
